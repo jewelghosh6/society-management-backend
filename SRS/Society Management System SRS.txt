@@ -1,0 +1,38 @@
+Society Management System: (Vehiclle and visitor Management in a Society)
+-------------------------
+=> Roles: Admin,User,Security  (All the roles can be managed by user type )
+
+=> Entity: Flat,Owner,Building No,vistor,security guard
+
+=> Dashboard: What are the fields we want to show in the homepage of the webapp
+              1> There will be one dashboard page at '/dashboard' cointaining vehicle and visitors entry form
+              2> By clicking on Vehicle it will be redirected to '/vehicle' containing the form where we can give all the details of vahicle 
+              3> By clicking on Vistors it will be redirected to '/visitor' containing the form where we can give all the details of visitor 
+
+
+=> Functionality: 1> Monthly Maintainance charge management(Auto generation of Maintainance charge on   monthly basis)
+                  2> Ownership Info against flat no
+                  3> All expenses for managing the society & all transaction history
+                  4> vistor management (Registering,contact details, In time ,Out time,In which flat the visitor is going)
+                  5> Managing the shift timings and payments for the security guards
+                  6> have to implement pagination(for going bback and forth in  the list) when we are showing list of vistors or vehicles
+
+
+=> Extra feature: 1> Integration of whatsapp API in our app to send whatsapp text msg mentioning the unique visitors id on first time registration 
+                     so that from the next time they dont need to tell all their details again
+                  
+       
+
+
+User-Roles - 1> flat owners
+             2> Staff
+             3> admin
+
+       Tables:  1> Users
+                2> Flats
+                3> User-Roles
+                4> Vehicles
+                5> Vehicle-types
+                6> Visitors
+                
+                 
