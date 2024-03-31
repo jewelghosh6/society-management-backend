@@ -4,6 +4,7 @@
   "description": "Society management system for vehicles and visitors ",
   "main": "app.js",
   "scripts": {
+    "dev": "nodemon app.js",
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "sync-db": "node ./utils/sync-db.js",

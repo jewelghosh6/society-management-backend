@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -11,20 +11,16 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('vehicleTypes', 
-    [
-    {vehicleTypeName: 'BIKE',createdAt: new Date(),updatedAt: new Date()},
-    {vehicleTypeName: 'CAR',createdAt: new Date(),updatedAt: new Date()}
-    ]
+    await queryInterface.bulkInsert('vehicle_types',
+      [
+        { vehicleTypeName: 'BIKE', createdAt: new Date(), updatedAt: new Date() },
+        { vehicleTypeName: 'CAR', createdAt: new Date(), updatedAt: new Date() }
+      ]
     );
   },
 
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+  async down(queryInterface, Sequelize) {
+    return queryInterface.bulkDelete('vehicle_types', null, {});
+
   }
 };
