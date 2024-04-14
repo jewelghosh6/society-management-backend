@@ -1,6 +1,6 @@
-const sequelizeInstance = require('../utils/db');
+const sequelizeInstance = require('../db');
 const { DataTypes } = require('sequelize');
-const ParkingFee = require('./parking-fee');
+const ParkingFee = require('./parkingFee');
 
 const Vehicles = sequelizeInstance.define('vehicles',
     {
@@ -11,33 +11,36 @@ const Vehicles = sequelizeInstance.define('vehicles',
             autoIncrement: true,
             allowNull: false
         },
-        registrationNumber:
+        registration_number:
         {
             type: DataTypes.STRING,
             //unique:true,
             allowNull: false
         },
-        clockIn:
+        clock_in:
         {
             type: DataTypes.DATE,
             allowNull: false
         },
-        clockOut:
+        clock_out:
         {
             type: DataTypes.DATE,
             allowNull: true
         },
-        createdAt: {
+        created_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
-        updatedAt: {
+        updated_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
+    },
+    {
+        underscored: true,
     });
 
-Vehicles.hasOne(ParkingFee, { foreignKey: 'vehicleId' });  //1:1 relation
-ParkingFee.belongsTo(Vehicles, { foreignKey: 'vehicleId' });
+Vehicles.hasOne(ParkingFee, { foreignKey: 'vehicle_id' });  //1:1 relation
+ParkingFee.belongsTo(Vehicles, { foreignKey: 'vehicle_id' });
 
 module.exports = Vehicles;

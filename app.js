@@ -34,7 +34,7 @@ app.get('/viewUser/:id', authenticateUser, isAdminOrStaff, (req, res) =>     //T
 })
 
 
-app.post('/user/register', (req, res) => {     //To Register/Sign-up a User
+app.post('/api/user/register', (req, res) => {     //To Register/Sign-up a User
     registerUser(req, res);
 });
 

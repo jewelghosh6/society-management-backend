@@ -2,14 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("ParkingFees", {
+    await queryInterface.createTable("parking_fees", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      timeParked: {
+      time_parked: {
         allowNull: false,
         type: Sequelize.TIME,
       },
@@ -17,19 +17,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      orderId: {
+      order_id: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      paymentId: {
+      payment_id: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      isPaid: {
+      is_paid: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      vehicleId: {
+      vehicle_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -37,17 +37,20 @@ module.exports = {
           key: "id",
         },
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    });
+    },
+      {
+        underscored: true,
+      });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("ParkingFees");
+    await queryInterface.dropTable("parking_fees");
   },
 };

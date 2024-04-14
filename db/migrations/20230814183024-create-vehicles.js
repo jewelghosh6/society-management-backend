@@ -4,7 +4,7 @@
 module.exports = {
     async up(queryInterface, Sequelize) {
 
-        await queryInterface.createTable('flats',
+        await queryInterface.createTable('vehicles',
             {
                 id:
                 {
@@ -13,58 +13,54 @@ module.exports = {
                     autoIncrement: true,
                     allowNull: false
                 },
-                flatNumber:
-                {
-                    type: Sequelize.INTEGER,
-                    allowNull: false
-                },
-                buildingNumber:
+                registration_number:
                 {
                     type: Sequelize.STRING,
+                    unique: true,
                     allowNull: false
                 },
-                flatArea:
+                clock_in:
                 {
+                    type: Sequelize.DATE,
+                    allowNull: false
+                },
+                clock_out:
+                {
+                    type: Sequelize.DATE,
+                    allowNull: true
+                },
+                visitor_id: {
                     type: Sequelize.INTEGER,
-                    allowNull: false
-                },
-                totalRooms:
-                {
-                    type: Sequelize.INTEGER,
-                    allowNull: false
-                },
-                parkingSpaceAlloted:
-                {
-                    type: Sequelize.BOOLEAN,
-                    allowNull: false
-                },
-                userId: {
                     allowNull: false,
-                    type: Sequelize.INTEGER,
-                    onDelete: "CASCADE",
                     references: {
-                        model: "users",
+                        model: "visitors",
                         key: "id",
                     },
                 },
-                createdAt: {
+                types_id: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: "vehicle_types",
+                        key: "id",
+                    },
+                },
+                created_at: {
                     allowNull: false,
                     type: Sequelize.DATE,
                 },
-                updatedAt: {
+                updated_at: {
                     allowNull: false,
                     type: Sequelize.DATE,
                 },
+            },
+            {
+                underscored: true,
             });
 
     },
 
     async down(queryInterface, Sequelize) {
-        /**
-         * Add reverting commands here.
-         *
-         * Example:
-         * await queryInterface.dropTable('users');
-         */
+        await queryInterface.dropTable('vehicles');
     }
 };

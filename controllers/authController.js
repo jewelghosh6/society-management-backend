@@ -20,7 +20,14 @@ const login = async (req, res) => {
 
       res.cookie("access-token", authRes[1], cookieOptions);
       res.cookie("refresh-token", authRes[2], cookieOptions);
-      res.json({ success: true, message: "Welcome back!!!", accessToken: authRes[1], refreshToken: authRes[2] });
+      res.json({
+        success: true,
+        message: "Welcome back,Login Successful !!!",
+        accessToken: authRes[1],
+        refreshToken: authRes[2],
+        roles: authRes[3],
+        permission: authRes[4]
+      });
     }
     else res.status(authRes[0]).send({ success: false, message: authRes[1] });
   }

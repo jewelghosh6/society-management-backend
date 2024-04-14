@@ -1,6 +1,6 @@
-const Vehicles = require("../models/vehicles");
-const VehicleTypes = require("../models/vehicle-types");
-const Visitors = require("../models/visitors");
+const Vehicles = require("../db/models/vehicles");
+const VehicleTypes = require("../db/models/vehicleTypes");
+const Visitors = require("../db/models/visitors");
 
 
 const createVehicleEntry = async (vehicleData) => {
@@ -28,7 +28,7 @@ const showAllVehicles = async () => {
         },
         {
           model: Visitors,
-          attributes: ["id","firstName", "lastName", "mobileNumber"],
+          attributes: ["id", "firstName", "lastName", "mobileNumber"],
         },
       ],
     });
@@ -39,12 +39,11 @@ const showAllVehicles = async () => {
   return vehiclesObj;
 };
 
-const clockOutForVehicle= async (visitorId)=>
-{
+const clockOutForVehicle = async (visitorId) => {
   try {
-    await Vehicles.update({clockOut:new Date()},{
-      where:{
-        visitorId : visitorId
+    await Vehicles.update({ clockOut: new Date() }, {
+      where: {
+        visitorId: visitorId
       }
     });
   } catch (error) {

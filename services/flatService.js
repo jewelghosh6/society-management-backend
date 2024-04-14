@@ -1,5 +1,5 @@
-const Flats = require("../models/flats");
-const Users = require("../models/users");
+const Flats = require("../db/models/flats");
+const Users = require("../db/models/users");
 
 const createFlat = async (flatData) => {
   await Flats.create(flatData);

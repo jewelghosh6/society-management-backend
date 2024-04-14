@@ -1,4 +1,4 @@
-const sequelizeInstance = require('../utils/db');
+const sequelizeInstance = require('../db');
 const { DataTypes } = require('sequelize');
 const Vehicles = require('./vehicles');
 
@@ -11,23 +11,26 @@ const VehicleTypes = sequelizeInstance.define('vehicle_types',
             autoIncrement: true,
             allowNull: false
         },
-        vehicleTypeName:
+        vehicle_type_name:
         {
             type: DataTypes.STRING(10),
             allowNull: false,
             unique: true
         },
-        createdAt: {
+        created_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
-        updatedAt: {
+        updated_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
+    },
+    {
+        underscored: true,
     });
 
-VehicleTypes.hasMany(Vehicles, { foreignKey: 'typesId' });
-Vehicles.belongsTo(VehicleTypes, { foreignKey: 'typesId' });
+VehicleTypes.hasMany(Vehicles, { foreignKey: 'types_id' });
+Vehicles.belongsTo(VehicleTypes, { foreignKey: 'types_id' });
 
 module.exports = VehicleTypes;

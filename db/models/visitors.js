@@ -1,4 +1,4 @@
-const sequelizeInstance = require('../utils/db');
+const sequelizeInstance = require('../db');
 
 const { DataTypes } = require('sequelize');
 const Vehicles = require('./vehicles');
@@ -12,19 +12,28 @@ const Visitors = sequelizeInstance.define('visitors',
             autoIncrement: true,
             allowNull: false
         },
-        firstName:
+        name:
+        {
+            type: DataTypes.STRING(50),
+            allowNull: false
+        },
+        mobile_number:
         {
             type: DataTypes.STRING(15),
             allowNull: false
         },
-        lastName:
-        {
-            type: DataTypes.STRING(15),
+        address: {
+            type: DataTypes.TEXT,
             allowNull: false
         },
-        mobileNumber:
+        person_to_meet:
         {
-            type: DataTypes.STRING(10),
+            type: DataTypes.STRING(25),
+            allowNull: false
+        },
+        purpose_of_visit:
+        {
+            type: DataTypes.STRING(25),
             allowNull: false
         },
         // visitorsToken:
@@ -33,37 +42,40 @@ const Visitors = sequelizeInstance.define('visitors',
         //     allowNull: true,
         //     unique: true
         // },
-        haveVehicle:
+        have_vehicle:
         {
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
-        clockIn:
+        clock_in:
         {
             type: DataTypes.DATE,
             allowNull: false
         },
-        clockOut:
+        clock_out:
         {
             type: DataTypes.DATE,
             allowNull: true
         },
-        createdBy:
+        created_by:
         {
             type: DataTypes.STRING(15),
             allowNull: false
         },
-        createdAt: {
+        created_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
-        updatedAt: {
+        updated_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
+    },
+    {
+        underscored: true,
     });
 
-Visitors.hasOne(Vehicles, { foreignKey: 'visitorId' });   // 1:1 relation
-Vehicles.belongsTo(Visitors, { foreignKey: 'visitorId' });
+Visitors.hasOne(Vehicles, { foreignKey: 'visitor_id' });   // 1:1 relation
+Vehicles.belongsTo(Visitors, { foreignKey: 'visitor_id' });
 
 module.exports = Visitors;

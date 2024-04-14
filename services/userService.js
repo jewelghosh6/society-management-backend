@@ -1,12 +1,12 @@
-const Users = require("../models/users");
-const UserRoles = require("../models/user-roles");
+const Users = require("../db/models/users");
+const Roles = require("../db/models/roles");
 const { Op } = require('sequelize');
 
 const createUser = async (dataToInsert) => {
   try {
     let userObj = await Users.findOne({
       where: {
-        emailId: dataToInsert.emailId
+        email_id: dataToInsert.emailId
       }
     })
 
@@ -38,8 +38,8 @@ const viewUsersByJoin = async () => {
       ],
       include: [
         {
-          model: UserRoles, // will create a left join
-          attributes: ["roleTypes"],
+          model: Roles, // will create a left join
+          attributes: ["role_name"],
         },
       ],
     });
@@ -64,8 +64,8 @@ const viewUserByID = async (userId) => {
       ],
       include: [
         {
-          model: UserRoles, // will create a left join
-          attributes: ["roleTypes"],
+          model: Roles, // will create a left join
+          attributes: ["role_name"],
         },
       ],
     });

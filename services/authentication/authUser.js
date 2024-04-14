@@ -1,16 +1,16 @@
 const bcrypt = require("bcrypt");
 
-const Users = require("../../models/users");
-//const UserRoles = require("../../models/user-roles");
-const { createAccessToken, createRefreshToken }=require('./generateToken');
-const redisClient=require('../../utils/redis-db');
+const Users = require("../../db/models/users");
+const { createAccessToken, createRefreshToken } = require('./generateToken');
+const redisClient = require('../../utils/redis-db');
+const { getRolesByUserId, getPermissionsByUserId } = require("./rolePermissionService");
 
 const authenticateUser = async (email, password) => {
-  let resArr=[];
+  let resArr = [];
   try {
     const userObj = await Users.findOne({
       where: {
-        emailId: email,
+        email_id: email,
       },
       // include: [
       //   {
@@ -20,43 +20,42 @@ const authenticateUser = async (email, password) => {
       // ],
     });
 
-    if (userObj == null) 
-    {
+    if (userObj == null) {
       //console.log("User with given email-Id does not exist!");
-      resArr= [400, "User with given email-Id does not exist!"];
+      resArr = [400, "User with given email-Id does not exist!"];
       return resArr;
-    } 
-    else 
-    {
+    }
+    else {
+      let roles = await getRolesByUserId(userObj.id);
+      let permissions = await getPermissionsByUserId(userObj.id);
       let authRes = await bcrypt.compare(password, userObj.password);
-      if(!authRes)
-      {
-        resArr=[401,"Incorrect Password"];
+      if (!authRes) {
+        resArr = [401, "Incorrect Password"];
         return resArr;
       }
       else {
-        const payload = 
+        const payload =
         {
-          id:userObj.id,
-          emailId: userObj.emailId
+          id: userObj.id,
+          email_id: userObj.email_id
           //role: userObj.userRole.roleTypes,   
         };
-       let accessToken =createAccessToken(payload);
+        let accessToken = createAccessToken(payload);
 
-      let refreshToken=createRefreshToken(payload);
+        let refreshToken = createRefreshToken(payload);
 
-      redisClient.set(userObj.emailId, refreshToken)
-      .then((res)=>console.log('Refresh Token saved successfully in redis'+res))
-      .catch((err)=>console.log('Error in saving Refresh token in redis'+err));
+        redisClient.set(userObj.email_id, refreshToken)
+          .then((res) => console.log('Refresh Token saved successfully in redis' + res))
+          .catch((err) => console.log('Error in saving Refresh token in redis' + err));
 
-        resArr=[200,accessToken,refreshToken];
+        resArr = [200, accessToken, refreshToken, roles, permissions];
         return resArr;
       }
       //else return false;
     }
   } catch (error) {
     console.log(error);
-    resArr=[401,'Unauthenticated'];
+    resArr = [401, 'Unauthenticated'];
     return resArr;
   }
 };

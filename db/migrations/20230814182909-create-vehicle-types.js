@@ -9,28 +9,27 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      vehicleTypeName: {
+      vehicle_type_name: {
         type: Sequelize.STRING(10),
         allowNull: false,
         unique: true,
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    });
+    },
+      {
+        underscored: true,
+      });
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+
+    await queryInterface.dropTable('vehicle_types');
   },
 };

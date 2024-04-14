@@ -1,7 +1,7 @@
 //const { setClockOutTimeForVisitorAndVehicle } = require("./visitorService");
 const razorPayInstance = require("../utils/razorPayInstance");
-const Vehicles = require("../models/vehicles");
-const ParkingFee = require("../models/parking-fee");
+const Vehicles = require("../db/models/vehicles");
+const ParkingFee = require("../db/models/parkingFee");
 
 const calculateTimeParkedAndAmount = async (visitorId) => {
   try {
@@ -11,13 +11,13 @@ const calculateTimeParkedAndAmount = async (visitorId) => {
       },
     });
 
-    if(!vehicleObj.clockOut) return [0,"Not clocked out yet,Please clockout first then Pay"];
+    if (!vehicleObj.clockOut) return [0, "Not clocked out yet,Please clockout first then Pay"];
 
     let timeParked = (vehicleObj.clockOut - vehicleObj.clockIn) / 60000; //in Minutes
     console.log("timeParked: " + timeParked);
 
     let billAmount;
-    if (timeParked <= 30) return [25,timeParked,vehicleObj.id];
+    if (timeParked <= 30) return [25, timeParked, vehicleObj.id];
     else {
       billAmount = 25 + (timeParked - 30) * 0.25;
       return [billAmount, timeParked, vehicleObj.id];
@@ -40,27 +40,27 @@ const generateParkingBillAndCreateOrder = async (visitorId) => {
     // let resp = await setClockOutTimeForVisitorAndVehicle(visitorId);
 
     // console.log("response from set clockout: "+resp);
-  
+
 
     let response = await calculateTimeParkedAndAmount(visitorId);
 
-    if(response[0] === 0) return [400,response[1]];
+    if (response[0] === 0) return [400, response[1]];
 
     let billAmount = response[0];
     let timeParked = response[1];
     let vehicleId = response[2];
 
-    let prkFeeObj=await ParkingFee.findOne({
-      where:{
-        vehicleId:vehicleId
+    let prkFeeObj = await ParkingFee.findOne({
+      where: {
+        vehicleId: vehicleId
       }
     });
 
-    if(prkFeeObj && prkFeeObj.isPaid){
-      return [400,'Already paid the Bill'];
+    if (prkFeeObj && prkFeeObj.isPaid) {
+      return [400, 'Already paid the Bill'];
     }
-    else if(prkFeeObj && !prkFeeObj.isPaid){
-      return [200,{ orderId: prkFeeObj.orderId, amount:prkFeeObj.amount }];
+    else if (prkFeeObj && !prkFeeObj.isPaid) {
+      return [200, { orderId: prkFeeObj.orderId, amount: prkFeeObj.amount }];
     }
 
     let amountWithOutDec = Math.trunc(billAmount);  // Math.trunc() is used to remove the decimal part of the number
@@ -114,20 +114,20 @@ const generateParkingBillAndCreateOrder = async (visitorId) => {
   }
 };
 
-const updateParkingFee=async (vehicleId,dataToUpdate)=>{
-    let resArr;
-    try {
-        let res= await ParkingFee.update(dataToUpdate,{
-            where:{
-                vehicleId : vehicleId
-            }
-        })
-        if(res==1) resArr=[200,'Payment data updated successfully'];
-        else resArr=[400,'Can not update payment details'];
-    } catch (error) {
-        resArr=[400,'Can not update payment details Reason: '+error];
-    }
-    return resArr;
+const updateParkingFee = async (vehicleId, dataToUpdate) => {
+  let resArr;
+  try {
+    let res = await ParkingFee.update(dataToUpdate, {
+      where: {
+        vehicleId: vehicleId
+      }
+    })
+    if (res == 1) resArr = [200, 'Payment data updated successfully'];
+    else resArr = [400, 'Can not update payment details'];
+  } catch (error) {
+    resArr = [400, 'Can not update payment details Reason: ' + error];
+  }
+  return resArr;
 }
 
 //clockOutAndGenerateParkingBill(56);

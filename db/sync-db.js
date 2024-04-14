@@ -1,5 +1,3 @@
-const UserRoles = require("../models/user-roles");
-const Users = require("../models/users");
 const sequelizeInstance = require("./db");
 
 sequelizeInstance

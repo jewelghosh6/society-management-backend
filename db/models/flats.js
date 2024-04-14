@@ -1,9 +1,8 @@
-const DataTypesInstance = require('../utils/db');
+const sequelizeInstance = require('../db');
 const { DataTypes } = require('sequelize');
-
 const Visitors = require('./visitors');
 
-const Flats = DataTypesInstance.define('flats',
+const Flats = sequelizeInstance.define('flats',
     {
         id:
         {
@@ -12,42 +11,46 @@ const Flats = DataTypesInstance.define('flats',
             autoIncrement: true,
             allowNull: false
         },
-        flatNumber:
+        flat_number:
         {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        buildingNumber:
+        building_number:
         {
             type: DataTypes.STRING,
             allowNull: false
         },
-        flatArea:
+        flat_area:
         {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        totalRooms:
+        total_rooms:
         {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        parkingSpaceAlloted:
+        parking_space_alloted:
         {
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
-        createdAt: {
+        created_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
-        updatedAt: {
+        updated_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
-    });
+    },
+    {
+        underscored: true,
+    }
+);
 
-Flats.hasMany(Visitors);  //1:M relation
-Visitors.belongsTo(Flats);
+Flats.hasMany(Visitors, { foreignKey: 'flat_id' });  //1:M relation
+Visitors.belongsTo(Flats, { foreignKey: 'flat_id' });
 
 module.exports = Flats;

@@ -1,8 +1,6 @@
-const sequelizeInstance = require('../utils/db');
+const sequelizeInstance = require('../db');
 const { DataTypes } = require('sequelize');
-
 const Flats = require('./flats');
-//const UserRoles=require('./user-roles');
 
 const Users = sequelizeInstance.define('users',
     {
@@ -13,22 +11,22 @@ const Users = sequelizeInstance.define('users',
             autoIncrement: true,
             allowNull: false
         },
-        firstName:
+        first_name:
         {
             type: DataTypes.STRING(25),
             allowNull: false,
         },
-        lastName:
+        last_name:
         {
             type: DataTypes.STRING(25),
             allowNull: false,
         },
-        mobileNumber:
+        mobile_number:
         {
             type: DataTypes.STRING(10),
             allowNull: true,
         },
-        emailId:
+        email_id:
         {
             type: DataTypes.STRING(25),
             allowNull: false,
@@ -39,23 +37,27 @@ const Users = sequelizeInstance.define('users',
             type: DataTypes.STRING,
             allowNull: false,
         },
-        isActive:
+        is_active:
         {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-        createdAt: {
+        created_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
-        updatedAt: {
+        updated_at: {
             allowNull: false,
             type: DataTypes.DATE,
         },
+    },
+    {
+        underscored: true,
     });
 
-Users.hasMany(Flats, { foreignKey: 'userId' });  //1:M relation
-Flats.belongsTo(Users, { foreignKey: 'userId' });
+
+Users.hasMany(Flats, { foreignKey: 'user_id' });  //1:M relation
+Flats.belongsTo(Users, { foreignKey: 'user_id' });
 
 
 module.exports = Users;

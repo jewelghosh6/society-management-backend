@@ -1,6 +1,8 @@
 'use strict';
 
-//** @type {import('sequelize-cli').Migration} */
+const { DataTypes } = require('sequelize');
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
 
@@ -13,19 +15,28 @@ module.exports = {
                     autoIncrement: true,
                     allowNull: false
                 },
-                firstName:
+                name:
+                {
+                    type: Sequelize.STRING(25),
+                    allowNull: false
+                },
+                mobile_number:
                 {
                     type: Sequelize.STRING(15),
                     allowNull: false
                 },
-                lastName:
-                {
-                    type: Sequelize.STRING(15),
+                address: {
+                    type: Sequelize.TEXT,
                     allowNull: false
                 },
-                mobileNumber:
+                person_to_meet:
                 {
-                    type: Sequelize.STRING(10),
+                    type: Sequelize.STRING(25),
+                    allowNull: false
+                },
+                purpose_of_visit:
+                {
+                    type: Sequelize.STRING(25),
                     allowNull: false
                 },
                 //  visitorsToken:
@@ -34,43 +45,50 @@ module.exports = {
                 //      allowNull:true,
                 //      unique:true     
                 //  },
-                haveVehicle:
+                have_vehicle:
                 {
                     type: Sequelize.BOOLEAN,
                     allowNull: false
                 },
-                clockIn:
+                flat_id: {
+                    allowNull: false,
+                    type: Sequelize.INTEGER,
+                    onDelete: "CASCADE",
+                    references: {
+                        model: "flats",
+                        key: "id",
+                    },
+                },
+                clock_in:
                 {
                     type: Sequelize.DATE,
                     allowNull: false
                 },
-                clockOut:
+                clock_out:
                 {
                     type: Sequelize.DATE,
                     allowNull: true
                 },
-                createdBy:
+                created_by:
                 {
                     type: Sequelize.STRING(15),
                     allowNull: false
                 },
-                createdAt: {
+                created_at: {
                     allowNull: false,
                     type: Sequelize.DATE,
                 },
-                updatedAt: {
+                updated_at: {
                     allowNull: false,
                     type: Sequelize.DATE,
                 },
+            },
+            {
+                underscored: true,
             });
     },
 
     async down(queryInterface, Sequelize) {
-        /**
-         * Add reverting commands here.
-         *
-         * Example:
-         * await queryInterface.dropTable('users');
-         */
+        await queryInterface.dropTable('visitors');
     }
 };

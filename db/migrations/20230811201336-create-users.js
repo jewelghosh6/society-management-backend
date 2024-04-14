@@ -1,5 +1,5 @@
 'use strict';
-
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
 
@@ -12,22 +12,22 @@ module.exports = {
                     autoIncrement: true,
                     allowNull: false
                 },
-                firstName:
+                first_name:
                 {
                     type: Sequelize.STRING(25),
                     allowNull: false,
                 },
-                lastName:
+                last_name:
                 {
                     type: Sequelize.STRING(25),
                     allowNull: false,
                 },
-                mobileNumber:
+                mobile_number:
                 {
                     type: Sequelize.STRING(15),
                     allowNull: true,
                 },
-                emailId:
+                email_id:
                 {
                     type: Sequelize.STRING(25),
                     allowNull: false,
@@ -38,27 +38,30 @@ module.exports = {
                     type: Sequelize.STRING,
                     allowNull: false,
                 },
-                isActive:
+                is_active:
                 {
                     type: Sequelize.BOOLEAN,
                     allowNull: false,
                 },
-                rolesId: {
-                    type: Sequelize.INTEGER,
-                    allowNull: false,
-                    references: {
-                        model: "user_roles",
-                        key: "id",
-                    },
-                },
-                createdAt: {
-                    allowNull: false,
-                    type: Sequelize.DATE,
-                },
-                updatedAt: {
+                // roles_id: {
+                //     type: Sequelize.INTEGER,
+                //     allowNull: false,
+                //     references: {
+                //         model: "user_roles",
+                //         key: "id",
+                //     },
+                // },
+                created_at: {
                     allowNull: false,
                     type: Sequelize.DATE,
                 },
+                updated_at: {
+                    allowNull: false,
+                    type: Sequelize.DATE,
+                },
+            },
+            {
+                underscored: true,
             }
         );
 

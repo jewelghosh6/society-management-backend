@@ -1,16 +1,14 @@
-const sequelizeInstance = require('../utils/db');
+const sequelizeInstance = require('../db');
 const { DataTypes } = require('sequelize');
-//const Vehicles =require('../models/vehicles');
 
-
-const ParkingFee = sequelizeInstance.define('parkingFee', {
+const ParkingFee = sequelizeInstance.define('parking_fee', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
     },
-    timeParked: {
+    time_parked: {
         type: DataTypes.TIME,
         allowNull: false
     },
@@ -18,26 +16,30 @@ const ParkingFee = sequelizeInstance.define('parkingFee', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    orderId: {
+    order_id: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    paymentId: {
+    payment_id: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    isPaid: {
+    is_paid: {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },
-    createdAt: {
+    created_at: {
         allowNull: false,
         type: DataTypes.DATE,
     },
-    updatedAt: {
+    updated_at: {
         allowNull: false,
         type: DataTypes.DATE,
     },
-});
+},
+    {
+        underscored: true,
+    }
+);
 
 module.exports = ParkingFee;

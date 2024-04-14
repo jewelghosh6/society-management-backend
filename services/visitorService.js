@@ -1,5 +1,5 @@
-const Visitors = require("../models/visitors");
-const Flats = require("../models/flats");
+const Visitors = require("../db/models/visitors");
+const Flats = require("../db/models/flats");
 const { clockOutForVehicle } = require("./vehicleService");
 
 const createVisitorEntry = async (visitorInfo) => {
@@ -89,7 +89,7 @@ const deleteVisitorEntry = async (visitorId) => {
     return resp;
   } catch (error) {
     console.log(error);
-  } 
+  }
 };
 
 module.exports = {
