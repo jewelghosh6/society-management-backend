@@ -43,6 +43,10 @@ module.exports = {
                     type: Sequelize.BOOLEAN,
                     allowNull: false,
                 },
+                account_under_review: {
+                    type: Sequelize.BOOLEAN,
+                    allowNull: false
+                },
                 // roles_id: {
                 //     type: Sequelize.INTEGER,
                 //     allowNull: false,

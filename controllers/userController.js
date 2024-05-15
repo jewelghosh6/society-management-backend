@@ -1,11 +1,15 @@
 const { encryptPassword } = require("../services/authentication/password");
-const { createUser, viewUsersByJoin, updateUserById, viewUserByID, deleteUserById, findUserByKeyword } = require("../services/userService");
+const { createUser, viewUsersByJoin, updateUserById, viewUserByID, deleteUserById, getAllRegisterReqDeails } = require("../services/userService");
 
 //fetch data from frontend
 //use CRUD func OR any other func from services
 //show return data to the frontend through routes
 
 const registerUser = async (req, res) => {
+  console.log("req.body", req.body);
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).send({ success: false, message: "Email or password can't be null." });
+  }
   try {
     if (req.body) {
       const hashedPassword = await encryptPassword(req.body.password);
@@ -49,13 +53,17 @@ const removeUser = async (req, res) => {
   else res.send('Can not delete user');
 }
 
-//findUserByKeyword("raja");
-
+const getAllRegisterRequests = async (req, res) => {
+  let resp = await getAllRegisterReqDeails();
+  console.log("resp.........>", resp);
+  res.status(200).send({ data: resp, success: true })
+}
 module.exports =
 {
   registerUser,
   showUsers,
   updateUser,
   viewUser,
-  removeUser
+  removeUser,
+  getAllRegisterRequests
 };

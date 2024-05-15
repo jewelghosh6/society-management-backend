@@ -8,6 +8,11 @@ const { getRolesByUserId, getPermissionsByUserId } = require("./rolePermissionSe
 const authenticateUser = async (email, password) => {
   let resArr = [];
   try {
+    let resFromRedis = await redisClient.get(email);
+    console.log("resFromRedis", resFromRedis);
+    if (resFromRedis) {
+      return resArr = [400, "A User already signed in with same mail id"];
+    }
     const userObj = await Users.findOne({
       where: {
         email_id: email,
@@ -44,7 +49,7 @@ const authenticateUser = async (email, password) => {
 
         let refreshToken = createRefreshToken(payload);
 
-        redisClient.set(userObj.email_id, refreshToken)
+        redisClient.setEx(userObj.email_id, 60, JSON.stringify({ accessToken, refreshToken }))
           .then((res) => console.log('Refresh Token saved successfully in redis' + res))
           .catch((err) => console.log('Error in saving Refresh token in redis' + err));
 

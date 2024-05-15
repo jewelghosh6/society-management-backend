@@ -42,6 +42,10 @@ const Users = sequelizeInstance.define('users',
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
+        account_under_review: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
         created_at: {
             allowNull: false,
             type: DataTypes.DATE,

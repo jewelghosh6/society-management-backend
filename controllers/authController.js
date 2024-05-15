@@ -43,7 +43,7 @@ const generateAccessToken = async (req, res) => {
   else {
     const resArr = await verifyRefreshTokenAndGetAccessToken(refreshToken);
 
-    console.log('in authController' + resArr);
+    // console.log('in authController' + resArr);
     if (resArr[0] == 200) res.send({ accessToken: resArr[1] });
     else res.status(resArr[0]).send(resArr[1]);
   }
@@ -51,7 +51,7 @@ const generateAccessToken = async (req, res) => {
 
 const logout = async (req, res) => {
   let refreshToken = req.headers["authorization"];//req.body.refreshToken;
-  console.log("In auth controller refreshToken: " + refreshToken);
+  // console.log("In auth controller refreshToken: " + refreshToken);
 
   if (!refreshToken) res.status(401).send('Give valid refersh token');
 

@@ -1,17 +1,29 @@
 const Users = require("../db/models/users");
 const Roles = require("../db/models/roles");
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
+const Permissions = require("../db/models/permissions");
+const UserHasPermissions = require("../db/models/userHasPermissions");
 
 const createUser = async (dataToInsert) => {
   try {
     let userObj = await Users.findOne({
       where: {
-        email_id: dataToInsert.emailId
+        email_id: dataToInsert.email
       }
     })
+    console.log("fonud UserObj", userObj?.dataValues);
 
     if (!userObj) {
-      let createdUserObj = await Users.create(dataToInsert);
+      let createdUserObj = await Users.create({
+        ...dataToInsert,
+        first_name: dataToInsert.firstName,
+        last_name: dataToInsert.lastName,
+        is_active: true,
+        account_under_review: true,
+        email_id: dataToInsert.email,
+        created_at: new Date(),
+        updated_at: new Date()
+      });
       delete createdUserObj.dataValues.password;
       return [201, 'New User Created', createdUserObj.dataValues];
     }
@@ -30,19 +42,33 @@ const viewUsersByJoin = async () => {
     usersObj = await Users.findAll({
       attributes: [
         "id",
-        "firstName",
-        "lastName",
-        "mobileNumber",
-        "emailId",
-        "isActive",
+        "first_name",
+        "last_name",
+        "mobile_number",
+        "email_id",
+        "is_active",
       ],
+      where: {
+        account_under_review: false
+      },
       include: [
         {
           model: Roles, // will create a left join
           attributes: ["role_name"],
         },
+        {
+          model: Permissions,
+          attributes: ["permission_name"],
+          // exclude: [{ model: UserHasPermissions }]
+        }
       ],
     });
+    // if (usersObj) {
+    //   usersObj = usersObj.map(item => {
+    //     let perm = item.permissions.map(i => i.permission_name);
+    //     return { ...item, permissions: perm }
+    //   })
+    // }
   } catch (error) {
     console.log(error);
   }
@@ -132,7 +158,28 @@ const findUserByKeyword = async (keyword) => {
   });
 }
 
-//findUserByKeyword('ho');
+const getAllRegisterReqDeails = async () => {
+  let registeRequestedUsersObj;
+  try {
+    registeRequestedUsersObj = await Users.findAll({
+      attributes: [
+        "id",
+        "first_name",
+        "last_name",
+        "mobile_number",
+        "email_id",
+        "is_active",
+      ],
+      where: {
+        account_under_review: true
+      },
+    })
+      return registeRequestedUsersObj;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 module.exports = {
   createUser,
@@ -140,5 +187,6 @@ module.exports = {
   viewUserByID,
   updateUserById,
   deleteUserById,
-  findUserByKeyword
+  findUserByKeyword,
+  getAllRegisterReqDeails
 };
