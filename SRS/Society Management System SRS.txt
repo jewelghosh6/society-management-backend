@@ -2,7 +2,7 @@ Society Management System: (Vehiclle and visitor Management in a Society)
 -------------------------
 => Roles: Admin,User,Security  (All the roles can be managed by user type )
 
-=> Entity: Flat,Owner,Building No,vistor,security guard
+=> Entity: Flat,Owner,Building number,vistor,security guard
 
 => Dashboard: What are the fields we want to show in the homepage of the webapp
               1> There will be one dashboard page at '/dashboard' cointaining vehicle and visitors entry form

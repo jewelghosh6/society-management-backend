@@ -1,0 +1,11 @@
+The primary goal of a society management system is to improve communication, organization, and efficiency in managing day-to-day operations. The system can offer features such as:
+Maintenance of payment scheduler
+Record maintenance dues
+Complaints management
+Communication management
+Notice systems
+Visitor notifications
+Security management 
+
+
+The system also allows residents to report new complaints and suggestions regarding the society to the admin or secretary privately using the system interface. While the Committee members and Secretary has the rights to reply to the complaint and replies can be checked anytime. 

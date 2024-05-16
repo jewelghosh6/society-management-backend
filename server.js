@@ -1,14 +1,14 @@
 require('dotenv').config();//{path:'../.env'}
-const express=require('express');
-//const {name}=require('ejs');
-const app=express();
+const express = require('express');
+const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true})); 
+app.use(express.urlencoded({ extended: true }));
 
-//app.set('view-engine','ejs');
 
-const port=process.env.APP_PORT;
-app.listen(port, () => console.log(`Application is running on Port ${port}...`));
+const port = process.env.APP_PORT;
+const host = process.env.APP_HOST;
 
-module.exports=app;
+app.listen(port, host, () => console.log(`Application is running on Port http://${host}:${port}`));
+
+module.exports = app;
