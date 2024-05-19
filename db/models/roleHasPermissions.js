@@ -42,8 +42,8 @@ const RoleHasPermissions = sequelizeInstance.define('role_has_permissions', {
   }
 );
 
-Roles.hasMany(Permissions, { through: RoleHasPermissions });
-Permissions.hasMany(Roles, { through: RoleHasPermissions });
+Roles.belongsToMany(Permissions, { through: RoleHasPermissions });
+Permissions.belongsToMany(Roles, { through: RoleHasPermissions });
 
 Permissions.hasMany(RoleHasPermissions, { foreignKey: "permission_id" });
 RoleHasPermissions.belongsTo(Permissions, { foreignKey: "permission_id" });

@@ -1,5 +1,7 @@
 const { encryptPassword } = require("../services/authentication/password");
-const { createUser, viewUsersByJoin, updateUserById, viewUserByID, deleteUserById, getAllRegisterReqDeails } = require("../services/userService");
+const { createUser, viewUsersByJoin, updateUserById, viewUserByID, deleteUserById, getAllRegisterReqDeails,
+  getRegisterReqDetailsByUserId
+} = require("../services/userService");
 
 //fetch data from frontend
 //use CRUD func OR any other func from services
@@ -28,8 +30,12 @@ const registerUser = async (req, res) => {
 };
 
 const showUsers = async (req, res) => {
-  let usersObj = await viewUsersByJoin();
-  res.send(usersObj);
+  try {
+    let usersObj = await viewUsersByJoin();
+    res.send({ success: true, message: "User Data fetched successfully", data: usersObj });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const updateUser = async (req, res) => {
@@ -58,6 +64,14 @@ const getAllRegisterRequests = async (req, res) => {
   console.log("resp.........>", resp);
   res.status(200).send({ data: resp, success: true })
 }
+
+const getRegisterRequestByUserId = async (req, res) => {
+  let userId = req.params.userId;
+  let resp = await getRegisterReqDetailsByUserId(userId);
+  console.log("resp.........>", resp);
+  res.status(200).send({ data: resp, success: true })
+}
+
 module.exports =
 {
   registerUser,
@@ -65,5 +79,6 @@ module.exports =
   updateUser,
   viewUser,
   removeUser,
-  getAllRegisterRequests
+  getAllRegisterRequests,
+  getRegisterRequestByUserId
 };

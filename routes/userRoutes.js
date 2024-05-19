@@ -1,7 +1,15 @@
 const express = require('express');
-const { showUsers, viewUser, registerUser, updateUser, removeUser, getAllRegisterRequests } = require('../controllers/userController');
+const { showUsers,
+    viewUser,
+    registerUser,
+    updateUser,
+    removeUser,
+    getAllRegisterRequests,
+    getRegisterRequestByUserId
+} = require('../controllers/userController');
 const authenticateUser = require('../middlewares/authenticateToken');
 const { isAdminOrStaff, isAdmin } = require('../middlewares/isAdmin');
+
 const router = express.Router();
 
 router.get('/view-all', (req, res) => {      //To show all users' list //authenticateUser, isAdminOrStaff,
@@ -26,6 +34,10 @@ router.delete('/delete/:id', authenticateUser, isAdmin, (req, res) => {
 
 router.get('/register-request', (req, res) => {      //To show all users' list //authenticateUser, isAdminOrStaff,
     getAllRegisterRequests(req, res);
+});
+
+router.get('/register-request/:userId', (req, res) => {
+    getRegisterRequestByUserId(req, res);
 });
 
 module.exports = router;

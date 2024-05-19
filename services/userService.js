@@ -19,8 +19,10 @@ const createUser = async (dataToInsert) => {
         first_name: dataToInsert.firstName,
         last_name: dataToInsert.lastName,
         is_active: true,
+        is_email_verified: false,
         account_under_review: true,
         email_id: dataToInsert.email,
+        mobile_number: dataToInsert.mobile,
         created_at: new Date(),
         updated_at: new Date()
       });
@@ -169,14 +171,38 @@ const getAllRegisterReqDeails = async () => {
         "mobile_number",
         "email_id",
         "is_active",
+        "created_at"
       ],
       where: {
         account_under_review: true
       },
     })
-      return registeRequestedUsersObj;
+    return registeRequestedUsersObj;
   } catch (error) {
     console.error(error);
+  }
+}
+
+const getRegisterReqDetailsByUserId = async (userId) => {
+  try {
+    let userReqDeails = await Users.findOne({
+      where: {
+        id: userId
+      },
+      attributes: [
+        "id",
+        "first_name",
+        "last_name",
+        "mobile_number",
+        "email_id",
+        "is_active",
+        "account_under_review"
+      ],
+    })
+    return userReqDeails.dataValues
+  } catch (error) {
+    console.log(error);
+
   }
 }
 
@@ -188,5 +214,6 @@ module.exports = {
   updateUserById,
   deleteUserById,
   findUserByKeyword,
-  getAllRegisterReqDeails
+  getAllRegisterReqDeails,
+  getRegisterReqDetailsByUserId
 };

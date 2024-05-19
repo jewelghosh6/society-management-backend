@@ -11,6 +11,7 @@ module.exports = {
         { id: 4, permission_name: 'can_generate_various_bills', description: "some description", created_at: new Date(), updated_at: new Date() },
         { id: 5, permission_name: 'can_pay_various_bills', description: "some description", created_at: new Date(), updated_at: new Date() },
         { id: 6, permission_name: 'can_view_various_bills', description: "some description", created_at: new Date(), updated_at: new Date() },
+        { id: 17, permission_name: 'can_pay_own_flat_bills', description: "some description", created_at: new Date(), updated_at: new Date() },
         { id: 7, permission_name: 'can_raise_complaint/suggestions', description: "some description", created_at: new Date(), updated_at: new Date() },
         { id: 8, permission_name: 'can_resolve_complaint/suggestions', description: "some description", created_at: new Date(), updated_at: new Date() },
         { id: 9, permission_name: 'can_view_complaint/suggestions', description: "some description", created_at: new Date(), updated_at: new Date() },
@@ -21,6 +22,7 @@ module.exports = {
         { id: 14, permission_name: 'can_create_meetings', description: "some description", created_at: new Date(), updated_at: new Date() },
         { id: 15, permission_name: 'can_receive_meeting_notification', description: "some description", created_at: new Date(), updated_at: new Date() },
         { id: 16, permission_name: 'can_give_access_to_flat_tenants', description: "some description", created_at: new Date(), updated_at: new Date() },
+
       ]
     )
   },

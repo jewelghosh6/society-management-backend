@@ -43,6 +43,10 @@ module.exports = {
                     type: Sequelize.BOOLEAN,
                     allowNull: false,
                 },
+                is_email_verified: {
+                    type: Sequelize.BOOLEAN,
+                    allowNull: false
+                },
                 account_under_review: {
                     type: Sequelize.BOOLEAN,
                     allowNull: false

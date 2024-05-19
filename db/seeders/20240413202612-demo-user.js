@@ -14,6 +14,7 @@ module.exports = {
         email_id: "jewel@gmail.com",
         password: await encryptPassword("1111"),
         is_active: true,
+        is_email_verified: true,
         account_under_review: false,
         created_at: new Date(),
         updated_at: new Date()
@@ -26,6 +27,7 @@ module.exports = {
         email_id: "raja@gmail.com",
         password: await encryptPassword("1111"),
         is_active: true,
+        is_email_verified: true,
         account_under_review: false,
         created_at: new Date(),
         updated_at: new Date()
