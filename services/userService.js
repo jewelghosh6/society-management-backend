@@ -3,6 +3,7 @@ const Roles = require("../db/models/roles");
 const { Op, where } = require('sequelize');
 const Permissions = require("../db/models/permissions");
 const UserHasPermissions = require("../db/models/userHasPermissions");
+const { assignRoleByUserId } = require("./rolesAndPermissionService");
 
 const createUser = async (dataToInsert) => {
   try {
@@ -23,8 +24,8 @@ const createUser = async (dataToInsert) => {
         account_under_review: true,
         email_id: dataToInsert.email,
         mobile_number: dataToInsert.mobile,
-        created_at: new Date(),
-        updated_at: new Date()
+        // created_at: new Date(),
+        // updated_at: new Date()
       });
       delete createdUserObj.dataValues.password;
       return [201, 'New User Created', createdUserObj.dataValues];
@@ -65,12 +66,7 @@ const viewUsersByJoin = async () => {
         }
       ],
     });
-    // if (usersObj) {
-    //   usersObj = usersObj.map(item => {
-    //     let perm = item.permissions.map(i => i.permission_name);
-    //     return { ...item, permissions: perm }
-    //   })
-    // }
+
   } catch (error) {
     console.log(error);
   }
@@ -206,6 +202,35 @@ const getRegisterReqDetailsByUserId = async (userId) => {
   }
 }
 
+const approveUserRegReqAndAssignRole = async (userId, roleAndPermissionData) => {
+  try {
+    let resFromUpdateUser = await updateUserById(userId, { account_under_review: false });
+    console.log("resFromUpdateUser", resFromUpdateUser);
+    let resfromAsignRole = await assignRoleByUserId(userId, roleAndPermissionData)
+    return { user: resFromUpdateUser, role: resfromAsignRole }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getUserIdByUserEmail = async (email) => {
+  try {
+    let userIns = await Users.findOne({
+      where: {
+        email_id: email
+      },
+      attributes: ["id", "email_id"]
+    })
+    return userIns.dataValues.id;
+    // console.log("userIns", userIns.dataValues);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// getUserIdByUserEmail("jewel@gmail.com")
+
 
 module.exports = {
   createUser,
@@ -215,5 +240,7 @@ module.exports = {
   deleteUserById,
   findUserByKeyword,
   getAllRegisterReqDeails,
-  getRegisterReqDetailsByUserId
+  getRegisterReqDetailsByUserId,
+  approveUserRegReqAndAssignRole,
+  getUserIdByUserEmail
 };

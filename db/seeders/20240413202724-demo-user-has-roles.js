@@ -1,15 +1,16 @@
 'use strict';
 
+const { getRoleIdByRoleName } = require('../../services/rolesAndPermissionService');
+const { getUserIdByUserEmail } = require('../../services/userService');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
 
     await queryInterface.bulkInsert('user_has_roles', [
       {
-        id: 1,
-        user_id: 1,
-        role_id: 1,
-        created_at: new Date(), updated_at: new Date()
+        user_id: await getUserIdByUserEmail("jewel@gmail.com"),
+        role_id: await getRoleIdByRoleName('SUPER-ADMIN'),
       }
     ], {});
 

@@ -28,17 +28,20 @@ const RoleHasPermissions = sequelizeInstance.define('role_has_permissions', {
       key: "id",
     },
   },
-  created_at: {
-    allowNull: false,
-    type: DataTypes.DATE
-  },
-  updated_at: {
-    allowNull: false,
-    type: DataTypes.DATE
-  }
+  // created_at: {
+  //   allowNull: false,
+  //   type: DataTypes.DATE
+  // },
+  // updated_at: {
+  //   allowNull: false,
+  //   type: DataTypes.DATE
+  // }
 },
   {
     underscored: true,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   }
 );
 

@@ -62,17 +62,20 @@ const Visitors = sequelizeInstance.define('visitors',
             type: DataTypes.STRING(15),
             allowNull: false
         },
-        created_at: {
-            allowNull: false,
-            type: DataTypes.DATE,
-        },
-        updated_at: {
-            allowNull: false,
-            type: DataTypes.DATE,
-        },
+        // created_at: {
+        //     allowNull: false,
+        //     type: DataTypes.DATE,
+        // },
+        // updated_at: {
+        //     allowNull: false,
+        //     type: DataTypes.DATE,
+        // },
     },
     {
         underscored: true,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     });
 
 Visitors.hasOne(Vehicles, { foreignKey: 'visitor_id' });   // 1:1 relation

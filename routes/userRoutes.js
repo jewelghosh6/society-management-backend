@@ -5,7 +5,8 @@ const { showUsers,
     updateUser,
     removeUser,
     getAllRegisterRequests,
-    getRegisterRequestByUserId
+    getRegisterRequestByUserId,
+    approveRegisterRequestAndAssignRole
 } = require('../controllers/userController');
 const authenticateUser = require('../middlewares/authenticateToken');
 const { isAdminOrStaff, isAdmin } = require('../middlewares/isAdmin');
@@ -39,5 +40,9 @@ router.get('/register-request', (req, res) => {      //To show all users' list /
 router.get('/register-request/:userId', (req, res) => {
     getRegisterRequestByUserId(req, res);
 });
+
+router.post('/register-request/approve',(req,res)=>{
+    approveRegisterRequestAndAssignRole(req,res);
+})
 
 module.exports = router;

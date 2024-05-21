@@ -1,6 +1,7 @@
 const { encryptPassword } = require("../services/authentication/password");
 const { createUser, viewUsersByJoin, updateUserById, viewUserByID, deleteUserById, getAllRegisterReqDeails,
-  getRegisterReqDetailsByUserId
+  getRegisterReqDetailsByUserId,
+  approveUserRegReqAndAssignRole
 } = require("../services/userService");
 
 //fetch data from frontend
@@ -61,15 +62,22 @@ const removeUser = async (req, res) => {
 
 const getAllRegisterRequests = async (req, res) => {
   let resp = await getAllRegisterReqDeails();
-  console.log("resp.........>", resp);
+  // console.log("resp.........>", resp);
   res.status(200).send({ data: resp, success: true })
 }
 
 const getRegisterRequestByUserId = async (req, res) => {
   let userId = req.params.userId;
   let resp = await getRegisterReqDetailsByUserId(userId);
-  console.log("resp.........>", resp);
+  // console.log("resp.........>", resp);
   res.status(200).send({ data: resp, success: true })
+}
+
+const approveRegisterRequestAndAssignRole = async (req, res) => {
+  let userId = req.body.userId;
+  let roleAndPermissionData = { roles: req.body.roles, permissions: req.body.permissions }
+  let resp = await approveUserRegReqAndAssignRole(userId, roleAndPermissionData);
+  res.send({ success: true, data: resp })
 }
 
 module.exports =
@@ -80,5 +88,6 @@ module.exports =
   viewUser,
   removeUser,
   getAllRegisterRequests,
-  getRegisterRequestByUserId
+  getRegisterRequestByUserId,
+  approveRegisterRequestAndAssignRole
 };

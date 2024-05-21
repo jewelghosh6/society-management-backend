@@ -50,17 +50,20 @@ const Users = sequelizeInstance.define('users',
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
-        created_at: {
-            allowNull: false,
-            type: DataTypes.DATE,
-        },
-        updated_at: {
-            allowNull: false,
-            type: DataTypes.DATE,
-        },
+        // created_at: {
+        //     allowNull: false,
+        //     type: DataTypes.DATE,
+        // },
+        // updated_at: {
+        //     allowNull: false,
+        //     type: DataTypes.DATE,
+        // },
     },
     {
         underscored: true,
+        timestamps: true, // This ensures `createdAt` and `updatedAt` are automatically managed
+        createdAt: 'created_at', // Map Sequelize's createdAt to created_at
+        updatedAt: 'updated_at' // Map Sequelize's updatedAt to updated_at
     });
 
 

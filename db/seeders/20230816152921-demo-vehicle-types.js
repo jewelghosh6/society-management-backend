@@ -4,8 +4,8 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('vehicle_types',
       [
-        { id: 1, vehicle_type_name: 'BIKE', created_at: new Date(), updated_at: new Date() },
-        { id: 2, vehicle_type_name: 'CAR', created_at: new Date(), updated_at: new Date() }
+        { vehicle_type_name: 'CAR' },
+        { vehicle_type_name: 'BIKE' },
       ]);
   },
 

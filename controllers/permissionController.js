@@ -5,7 +5,6 @@ const getAllPermissions = async (req, res) => {
     try {
         let permissionList = await getPermissionsList();
         res.send({ success: true, data: permissionList });
-
     } catch (error) {
         console.log(error);
     }
@@ -16,7 +15,6 @@ const getPermissionListByRoleId = async (req, res) => {
     try {
         let permissionList = await getPermissionsByRoleId(roleId);
         res.send({ success: true, data: permissionList })
-
     } catch (error) {
         console.log(error);
     }

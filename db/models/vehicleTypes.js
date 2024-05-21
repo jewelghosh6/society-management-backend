@@ -17,17 +17,20 @@ const VehicleTypes = sequelizeInstance.define('vehicle_types',
             allowNull: false,
             unique: true
         },
-        created_at: {
-            allowNull: false,
-            type: DataTypes.DATE,
-        },
-        updated_at: {
-            allowNull: false,
-            type: DataTypes.DATE,
-        },
+        // created_at: {
+        //     allowNull: false,
+        //     type: DataTypes.DATE,
+        // },
+        // updated_at: {
+        //     allowNull: false,
+        //     type: DataTypes.DATE,
+        // },
     },
     {
         underscored: true,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     });
 
 VehicleTypes.hasMany(Vehicles, { foreignKey: 'types_id' });
