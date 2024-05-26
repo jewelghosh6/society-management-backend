@@ -7,8 +7,10 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const port = process.env.APP_PORT;
-const host = process.env.APP_HOST;
+// const host = process.env.APP_HOST;
 
-app.listen(port, host, () => console.log(`Application is running on Port http://${host}:${port}`));
+// app.listen(port, host, () => console.log(`Application is running on Port http://${host}:${port}`));
+app.listen(port, () => console.log(`Application is running on Port ${port}`));
+
 
 module.exports = app;
