@@ -11,6 +11,10 @@ module.exports = {
       {
         user_id: await getUserIdByUserEmail("jewel@gmail.com"),
         role_id: await getRoleIdByRoleName('SUPER-ADMIN'),
+      },
+      {
+        user_id: await getUserIdByUserEmail("raja@gmail.com"),
+        role_id: await getRoleIdByRoleName('ADMIN'),
       }
     ], {});
 

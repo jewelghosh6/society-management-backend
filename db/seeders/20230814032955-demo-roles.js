@@ -6,7 +6,7 @@ module.exports = {
       [
         { role_name: 'SUPER-ADMIN', description: "some description" },
         { role_name: 'ADMIN', description: "some description" },
-        { role_name: 'SOCIETY MANAGER/PRESIDENT', description: "some description" },
+        { role_name: 'SOCIETY-MANAGER/PRESIDENT', description: "some description" },
         { role_name: 'FLAT-RESIDENT/OWNER', description: "some description" },
         { role_name: 'USER', description: "some description" },
         { role_name: 'WATCH-MAN', description: "some description" },

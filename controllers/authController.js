@@ -25,8 +25,8 @@ const login = async (req, res) => {
         message: "Welcome back,Login Successful !!!",
         accessToken: authRes[1],
         refreshToken: authRes[2],
-        roles: authRes[3],
-        permission: authRes[4]
+        userData: authRes[3],
+        accessTokenExpireAt: new Date(Date.now() + 3 * 60 * 1000)
       });
     }
     else res.status(authRes[0]).send({ success: false, message: authRes[1] });

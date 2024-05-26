@@ -17,14 +17,18 @@ module.exports = {
         { permission_name: 'can_view_complaint/suggestions', description: "some description" },
         { permission_name: 'can_add_new_flat', description: "some description" },
         { permission_name: 'can_view_single_flat_details', description: "some description" },
-        { permission_name: 'can_view_all_flats', description: "some description" },
-        { permission_name: 'can_allot_new_flats', description: "some description" },
+        { permission_name: 'can_allot_new_flats_to_user', description: "some description" },
         { permission_name: 'can_create_meetings', description: "some description" },
         { permission_name: 'can_receive_meeting_notification', description: "some description" },
         { permission_name: 'can_give_access_to_flat_tenants', description: "some description" },
         { permission_name: 'have_access_to_group_chat', description: "some description" },
 
-
+        { permission_name: "can_view_all_flat_details", description: "some description" },
+        { permission_name: "can_view_dashboard", description: "some description" },
+        { permission_name: "can_manage_user", description: "some description" },
+        { permission_name: "can_manage_bills_section", description: "some description" },
+        { permission_name: "can_view_events_section", description: "some description" },
+        { permission_name: "can_view_security_section", description: "some description" },
       ]
     )
   },

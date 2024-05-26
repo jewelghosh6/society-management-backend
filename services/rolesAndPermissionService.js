@@ -36,9 +36,6 @@ const getPermissionsByRoleId = async (role_id) => {
                 role_id
             },
             attributes: ["role_id", 'permission_id'],
-            // include:[
-            //     {model:}
-            // ]
         })
         permissionList = permissionList.map(item => item.dataValues)
         // console.log("permissionList", permissionList);
@@ -88,6 +85,29 @@ const getPermissionIdByPermissionName = async (permissionName) => {
         console.log(error);
     }
 }
+
+
+const getPermissionsByRoleName = async (roleName) => {
+    try {
+        let foundRole = await Roles.findOne({
+            where: {
+                role_name: roleName
+            },
+            include: [{
+                model: RoleHasPermissions
+            }]
+        })
+        let permissions = foundRole.role_has_permissions.map((item) => (item.permission_id))
+        let permList = await getPermissionsList();
+        let filteredList = permList.filter(item => permissions.includes(item.id));
+        return filteredList.map(item => item.permission_name);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// getPermissionsByRoleName('STAFF')
 // getRoleIdByRoleName('SUPER-ADMIN')
 // getPermissionIdByPermissionName('can_add_new_member')
 module.exports = {
@@ -96,5 +116,6 @@ module.exports = {
     getPermissionsByRoleId,
     assignRoleByUserId,
     getPermissionIdByPermissionName,
-    getRoleIdByRoleName
+    getRoleIdByRoleName,
+    getPermissionsByRoleName
 }

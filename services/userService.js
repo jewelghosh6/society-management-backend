@@ -19,7 +19,7 @@ const createUser = async (dataToInsert) => {
         ...dataToInsert,
         first_name: dataToInsert.firstName,
         last_name: dataToInsert.lastName,
-        is_active: true,
+        is_active: false,
         is_email_verified: false,
         account_under_review: true,
         email_id: dataToInsert.email,
@@ -28,7 +28,7 @@ const createUser = async (dataToInsert) => {
         // updated_at: new Date()
       });
       delete createdUserObj.dataValues.password;
-      return [201, 'New User Created', createdUserObj.dataValues];
+      return [201, 'Register request received', createdUserObj.dataValues];
     }
 
     else return [400, 'A User with the same mailId already present'];
@@ -204,8 +204,8 @@ const getRegisterReqDetailsByUserId = async (userId) => {
 
 const approveUserRegReqAndAssignRole = async (userId, roleAndPermissionData) => {
   try {
-    let resFromUpdateUser = await updateUserById(userId, { account_under_review: false });
-    console.log("resFromUpdateUser", resFromUpdateUser);
+    let resFromUpdateUser = await updateUserById(userId, { is_active: true, account_under_review: false });
+    // console.log("resFromUpdateUser", resFromUpdateUser);
     let resfromAsignRole = await assignRoleByUserId(userId, roleAndPermissionData)
     return { user: resFromUpdateUser, role: resfromAsignRole }
 
@@ -220,7 +220,7 @@ const getUserIdByUserEmail = async (email) => {
       where: {
         email_id: email
       },
-      attributes: ["id", "email_id"]
+      attributes: ["id"]
     })
     return userIns.dataValues.id;
     // console.log("userIns", userIns.dataValues);

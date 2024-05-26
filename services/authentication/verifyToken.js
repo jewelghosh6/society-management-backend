@@ -7,23 +7,22 @@ const verifyRefreshTokenAndGetAccessToken = async (refreshToken) => {
   let resArr = [];
 
   try {
-    jwt.verify
     let user = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET);
 
     console.log(user);
-    let val = await redisClient.get(user.emailId);
+    // let val = await redisClient.get(user.emailId);
 
-    if (!val || val !== refreshToken) {
-      resArr = [403, "Invalid refresh token"];
-      //console.log(resArr);
-    }
-    else {
-      let newAccessToken = createAccessToken({ id: user.id, emailId: user.emailId });
-      resArr = [200, newAccessToken];
-    }
+    // if (!val || val !== refreshToken) {
+    //   resArr = [403, "Invalid refresh token"];
+    //   //console.log(resArr);
+    // }
+    // else {
+    let newAccessToken = createAccessToken({ id: user.id, emailId: user.emailId });
+    resArr = [200, newAccessToken];
+    // }
   } catch (error) {
     // console.log("error in jwt verify" + error);
-    resArr = [403, `Invalid refresh token ${error}`];
+    resArr = [401, { success: false, message: `Invalid refresh token ${error}` }];
   }
   return resArr;
 };

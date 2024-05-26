@@ -12,7 +12,7 @@ router.delete('/sign-out', (req, res) => {
     logout(req, res);
 })
 
-router.post('/generateAccessToken', (req, res) => {
+router.post('/generate-access-token', (req, res) => {
     generateAccessToken(req, res);
 })
 
