@@ -7,14 +7,14 @@
     "dialect": "postgres",
     "migrationStorageTableName": "sequelize_meta"
   },
-  "test": {
-    "username": "postgres",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+  "production": {
+    "username": "root",
+    "password": "MSohcQSIyY1LEayZ0sGzr1XMkaKPi4Ao",
+    "database": "society_management_db_v2",
+    "host": "dpg-cp9hv17109ks73a91rig-a",
     "dialect": "postgres"
   },
-  "production": {
+  "test": {
     "username": "postgres",
     "password": null,
     "database": "database_production",
