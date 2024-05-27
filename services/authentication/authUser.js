@@ -53,7 +53,9 @@ const authenticateUser = async (email, password) => {
 
         }
 
-        redisClient.set(userObj.email_id, refreshToken);
+        redisClient.set(userObj.email_id, refreshToken)
+          .then((res) => console.log("Refresh Token saved successfully in Redis", res))
+          .catch(err => console.error("Error in saving Refresh Token in redis", err))
 
         // redisClient.setEx(userObj.email_id, 60, JSON.stringify({ accessToken, refreshToken }))
         //   .then((res) => console.log('Refresh Token saved successfully in redis' + res))

@@ -49,8 +49,8 @@ const generateAccessToken = async (req, res) => {
   }
 }
 
-const logout = async (req, res) => {
-  let refreshToken = req.headers["authorization"];//req.body.refreshToken;
+const signOut = async (req, res) => {
+  let refreshToken = req.body.refreshToken;
   // console.log("In auth controller refreshToken: " + refreshToken);
 
   if (!refreshToken) res.status(401).send('Give valid refersh token');
@@ -64,5 +64,5 @@ const logout = async (req, res) => {
 module.exports = {
   login,
   generateAccessToken,
-  logout
+  signOut
 };

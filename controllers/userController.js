@@ -16,10 +16,7 @@ const registerUser = async (req, res) => {
   try {
     if (req.body) {
       const hashedPassword = await encryptPassword(req.body.password);
-      let userData = {
-        ...req.body, emailId: req.body.email ? req.body.email : null,
-        password: hashedPassword, rolesId: 4, isActive: true
-      };
+      let userData = { ...req.body, password: hashedPassword };
       let response = await createUser(userData);
 
       res.status(response[0]).send({ success: response[0] !== 400, message: response[1], userData: response[2] });
