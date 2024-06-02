@@ -16,4 +16,8 @@ router.post('/generate-access-token', (req, res) => {
     generateAccessToken(req, res);
 })
 
+router.post('/forgot-password', (req, res) => {
+    generateForgotPasswordLink(req, res);
+})
+
 module.exports = router;

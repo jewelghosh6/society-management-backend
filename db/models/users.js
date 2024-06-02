@@ -50,6 +50,14 @@ const Users = sequelizeInstance.define('users',
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
+        password_reset_token: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        password_reset_token_expire_at: {
+            allowNull: true,
+            type: DataTypes.DATE,
+        }
         // created_at: {
         //     allowNull: false,
         //     type: DataTypes.DATE,

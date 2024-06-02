@@ -22,18 +22,21 @@ const authenticateUser = async (email, password) => {
         email_id: email,
       },
     });
-    // console.log("userObj", userObj.password);
+    console.log("userObj>>>>>>", userObj.password);
 
 
     if (userObj == null) {
-      resArr = [400, "User with given email-Id does not exist!"];
+      resArr = [400, "User with given email-Id does not exist!", "email_not_found"];
       return resArr;
+    }
+    else if (userObj.account_under_review) {
+      return [400, "Your Account is under Review.", "account_under_review"]
     }
     else {
       userObj = userObj.dataValues;
       let authRes = await bcrypt.compare(password, userObj.password);
       if (!authRes) {
-        resArr = [401, "Incorrect Password"];
+        resArr = [401, "Incorrect Password", "incorrect_pass"];
         return resArr;
       }
       else {
@@ -70,7 +73,7 @@ const authenticateUser = async (email, password) => {
     }
   } catch (error) {
     console.log(error);
-    resArr = [401, 'Unauthenticated'];
+    resArr = [401, 'Unauthenticated', error];
     return resArr;
   }
 };

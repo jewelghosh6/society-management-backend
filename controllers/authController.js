@@ -29,7 +29,7 @@ const login = async (req, res) => {
         accessTokenExpireAt: new Date(Date.now() + 3 * 60 * 1000)
       });
     }
-    else res.status(authRes[0]).send({ success: false, message: authRes[1] });
+    else res.status(authRes[0]).send({ success: false, message: authRes[1], error_code: authRes[2] });
   }
   catch (error) {
     res.status(401).send({ success: false, message: 'wrong emailId or password', error: error });
@@ -58,6 +58,16 @@ const signOut = async (req, res) => {
   let resArr = await verifyRefreshTokenAndDeleteFromRedis(refreshToken);
 
   res.status(resArr[0]).send(resArr[1]);
+
+}
+
+const generateForgotPasswordLink=async(req,res)=>{
+  let email=req.body.email;
+  try {
+    await generatePasswordResetToken
+  } catch (error) {
+    
+  }
 
 }
 
