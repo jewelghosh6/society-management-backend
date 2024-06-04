@@ -2,6 +2,9 @@ require("dotenv").config();
 const { createAccessToken } = require("./generateToken");
 const jwt = require("jsonwebtoken");
 const redisClient = require("../../utils/redis-db");
+const Users = require("../../db/models/users");
+const { decryptData } = require("../URLEncodeDecodeServices");
+const bcrypt = require('bcrypt')
 
 const verifyRefreshTokenAndGetAccessToken = async (refreshToken) => {
   let resArr = [];
@@ -46,7 +49,39 @@ const verifyRefreshTokenAndDeleteFromRedis = async (refreshToken) => {
   return resArr;
 }
 
+const verifyPasswordResetToken = async (encryptedResetTokenAndMail) => {
+  console.log("encryptedResetTokenAndMail~~~~~", encryptedResetTokenAndMail);
+  try {   //  let dataToEncryptForURL = `${resetToken}#${userObj.email_id}`;
+    let decryptedData = decryptData(encryptedResetTokenAndMail);
+    let decryptedDataArr = decryptedData.split("#");
+    let resetToken = decryptedDataArr[0];
+    let email = decryptedDataArr[1];
+
+
+    let foundUserObj = await Users.findOne({
+      where: {
+        email_id: email
+      }
+    })
+    if (!foundUserObj.password_reset_token || !bcrypt.compareSync(resetToken, foundUserObj.password_reset_token)) {
+      return [400, "Invalid password reset token"];
+    }
+    else if (foundUserObj.password_reset_token_expire_at < Date.now()) {
+      return [400, "Password reset token expired"]
+    }
+    else {
+      return [200, "Token verified", foundUserObj]
+    }
+
+  } catch (error) {
+    console.error("error>>>>>>>>>>", error);
+    return [400, error]
+  }
+
+}
+
 module.exports = {
   verifyRefreshTokenAndGetAccessToken,
-  verifyRefreshTokenAndDeleteFromRedis
+  verifyRefreshTokenAndDeleteFromRedis,
+  verifyPasswordResetToken
 };

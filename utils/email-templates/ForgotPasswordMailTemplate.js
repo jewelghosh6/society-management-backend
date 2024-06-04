@@ -84,8 +84,10 @@ const ForgotPasswordMailTemplate = `<!DOCTYPE html>
             <p>Hello [User Name],</p>
             <p>We received a request to reset your password for your account. To reset your password, click the button below:</p>
             <div class="button-container">
-                <a href="[RESET_LINK]" class="button">Reset Password</a>
+                <a href="[RESET LINK]" class="button">Reset Password</a>
+                
             </div>
+            [RESET LINK]
             <p>If you did not request a password reset, please ignore this email or contact support if you have questions.</p>
             <p>Thank you,<br>The [Society Name] Team</p>
         </div>

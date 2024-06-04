@@ -120,6 +120,14 @@ const updateUserById = async (userId, dataToUpdate) =>  //for Updating a Entry/R
   return resArr;
 };
 
+// const updateUserByMailId=async (mail,dataToUpdate)=>{
+//   try {
+
+//   } catch (error) {
+
+//   }
+// }
+
 const deleteUserById = async (userId) => //for Deleting a Entry/Row by Id
 {
   try {
@@ -229,6 +237,21 @@ const getUserIdByUserEmail = async (email) => {
   }
 }
 
+const getUserByEmailId = async (email) => {
+  try {
+    let userObj = await Users.findOne({
+      where: {
+        email_id: email,
+      },
+    });
+    return userObj;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+
+}
+
 // getUserIdByUserEmail("jewel@gmail.com")
 
 
@@ -242,5 +265,6 @@ module.exports = {
   getAllRegisterReqDeails,
   getRegisterReqDetailsByUserId,
   approveUserRegReqAndAssignRole,
-  getUserIdByUserEmail
+  getUserIdByUserEmail,
+  getUserByEmailId
 };

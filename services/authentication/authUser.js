@@ -22,7 +22,7 @@ const authenticateUser = async (email, password) => {
         email_id: email,
       },
     });
-    console.log("userObj>>>>>>", userObj.password);
+    // console.log("userObj>>>>>>", userObj.password);
 
 
     if (userObj == null) {

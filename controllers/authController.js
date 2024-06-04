@@ -1,6 +1,12 @@
+const { decryptData } = require("../services/URLEncodeDecodeServices");
 const { authenticateUser } = require("../services/authentication/authUser");
+const { generatePasswordResetToken } = require("../services/authentication/generateToken");
+const { encryptPassword } = require("../services/authentication/password");
 const { verifyRefreshTokenAndGetAccessToken,
-  verifyRefreshTokenAndDeleteFromRedis } = require('../services/authentication/verifyToken');
+  verifyRefreshTokenAndDeleteFromRedis,
+  verifyPasswordResetToken } = require('../services/authentication/verifyToken');
+const { sendResetPasswordMail } = require("../services/mailServices/forgotPasswordMailService");
+const { getUserByEmailId, updateUserById } = require("../services/userService");
 
 const login = async (req, res) => {
   const emailId = req.body.email;
@@ -61,18 +67,107 @@ const signOut = async (req, res) => {
 
 }
 
-const generateForgotPasswordLink=async(req,res)=>{
-  let email=req.body.email;
+const generateForgotPasswordLink = async (req, res) => {
+  let email = req.body.email;
   try {
-    await generatePasswordResetToken
+    let foundUser = await getUserByEmailId(email);
+    if (!foundUser) {
+      res.status(400).send({
+        success: false,
+        message: "No user found"
+      });
+      return;
+    }
+
+    let tokenObj = await generatePasswordResetToken(email);
+    let userObj = await getUserByEmailId(email);
+    let sentinfo = await sendResetPasswordMail(userObj, tokenObj.resetToken);
+    res.status(200).send({
+      success: true,
+      message: sentinfo
+    });
   } catch (error) {
-    
+    console.error(error);
   }
 
 }
 
+const verifyResetToken = async (req, res) => {
+  let resetToken = req.body.token;
+  // let email = req.body.email;
+  try {
+    let resp = await verifyPasswordResetToken(resetToken);
+    res.status(resp[0]).send({
+      success: resp[0] == 200 ? true : false,
+      message: resp[1]
+    })
+  } catch (error) {
+    console.error(error);
+    res.status(400).send({
+      success: false,
+      error: error
+    })
+  }
+}
+
+const setNewPassword = async (req, res) => {
+  console.log("req.body", req.body);
+  let { token, password, confirm_password } = req.body;
+
+  try {
+    let respFromVerifyTokenMethod = await verifyPasswordResetToken(token);
+
+    if (respFromVerifyTokenMethod[0] == 400) {
+      res.status(400).send({
+        success: false,
+        a: 1,
+        message: respFromVerifyTokenMethod[1]
+      })
+      return;
+    }
+    // else if
+
+    if (password !== confirm_password) {
+      res.status(400).send({
+        success: false,
+        a: 2,
+        message: "Password & Confirm Password must be same"
+      })
+      return;
+    }
+
+    let userObj = respFromVerifyTokenMethod[2];
+
+    let respFromUpdateUserMethod = await updateUserById(userObj.id,
+      {
+        password: await encryptPassword(password),
+        password_reset_token: null,
+        password_reset_token_expire_at: null
+      })
+
+    console.log("respFromUpdateUserMethod: ", respFromUpdateUserMethod);
+
+    res.status(respFromUpdateUserMethod[0]).send({
+      success: respFromUpdateUserMethod[0] == 200,
+      message: respFromUpdateUserMethod[1]
+    })
+    return;
+  } catch (error) {
+    console.log("Error in setNewPassword:", error);
+    res.status(400).send({
+      success: false,
+      a: 3,
+      message: error
+    })
+  }
+}
+
+
 module.exports = {
   login,
   generateAccessToken,
-  signOut
+  signOut,
+  verifyResetToken,
+  generateForgotPasswordLink,
+  setNewPassword
 };
