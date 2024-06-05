@@ -3,6 +3,7 @@ const Roles = require("../db/models/roles");
 const { Op, where } = require('sequelize');
 const Permissions = require("../db/models/permissions");
 const UserHasPermissions = require("../db/models/userHasPermissions");
+const { assignRoleByUserId } = require("./rolesAndPermissionService");
 
 const createUser = async (dataToInsert) => {
   try {
@@ -18,14 +19,16 @@ const createUser = async (dataToInsert) => {
         ...dataToInsert,
         first_name: dataToInsert.firstName,
         last_name: dataToInsert.lastName,
-        is_active: true,
+        is_active: false,
+        is_email_verified: false,
         account_under_review: true,
         email_id: dataToInsert.email,
-        created_at: new Date(),
-        updated_at: new Date()
+        mobile_number: dataToInsert.mobile,
+        // created_at: new Date(),
+        // updated_at: new Date()
       });
       delete createdUserObj.dataValues.password;
-      return [201, 'New User Created', createdUserObj.dataValues];
+      return [201, 'Register request received', createdUserObj.dataValues];
     }
 
     else return [400, 'A User with the same mailId already present'];
@@ -63,12 +66,7 @@ const viewUsersByJoin = async () => {
         }
       ],
     });
-    // if (usersObj) {
-    //   usersObj = usersObj.map(item => {
-    //     let perm = item.permissions.map(i => i.permission_name);
-    //     return { ...item, permissions: perm }
-    //   })
-    // }
+
   } catch (error) {
     console.log(error);
   }
@@ -122,6 +120,14 @@ const updateUserById = async (userId, dataToUpdate) =>  //for Updating a Entry/R
   return resArr;
 };
 
+// const updateUserByMailId=async (mail,dataToUpdate)=>{
+//   try {
+
+//   } catch (error) {
+
+//   }
+// }
+
 const deleteUserById = async (userId) => //for Deleting a Entry/Row by Id
 {
   try {
@@ -169,16 +175,84 @@ const getAllRegisterReqDeails = async () => {
         "mobile_number",
         "email_id",
         "is_active",
+        "created_at"
       ],
       where: {
         account_under_review: true
       },
     })
-      return registeRequestedUsersObj;
+    return registeRequestedUsersObj;
   } catch (error) {
     console.error(error);
   }
 }
+
+const getRegisterReqDetailsByUserId = async (userId) => {
+  try {
+    let userReqDeails = await Users.findOne({
+      where: {
+        id: userId
+      },
+      attributes: [
+        "id",
+        "first_name",
+        "last_name",
+        "mobile_number",
+        "email_id",
+        "is_active",
+        "account_under_review"
+      ],
+    })
+    return userReqDeails.dataValues
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+
+const approveUserRegReqAndAssignRole = async (userId, roleAndPermissionData) => {
+  try {
+    let resFromUpdateUser = await updateUserById(userId, { is_active: true, account_under_review: false });
+    // console.log("resFromUpdateUser", resFromUpdateUser);
+    let resfromAsignRole = await assignRoleByUserId(userId, roleAndPermissionData)
+    return { user: resFromUpdateUser, role: resfromAsignRole }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getUserIdByUserEmail = async (email) => {
+  try {
+    let userIns = await Users.findOne({
+      where: {
+        email_id: email
+      },
+      attributes: ["id"]
+    })
+    return userIns.dataValues.id;
+    // console.log("userIns", userIns.dataValues);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getUserByEmailId = async (email) => {
+  try {
+    let userObj = await Users.findOne({
+      where: {
+        email_id: email,
+      },
+    });
+    return userObj;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+
+}
+
+// getUserIdByUserEmail("jewel@gmail.com")
 
 
 module.exports = {
@@ -188,5 +262,9 @@ module.exports = {
   updateUserById,
   deleteUserById,
   findUserByKeyword,
-  getAllRegisterReqDeails
+  getAllRegisterReqDeails,
+  getRegisterReqDetailsByUserId,
+  approveUserRegReqAndAssignRole,
+  getUserIdByUserEmail,
+  getUserByEmailId
 };

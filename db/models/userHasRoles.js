@@ -28,17 +28,20 @@ const UserHasRoles = sequelizeInstance.define('user_has_roles', {
             key: "id",
         },
     },
-    created_at: {
-        allowNull: false,
-        type: DataTypes.DATE
-    },
-    updated_at: {
-        allowNull: false,
-        type: DataTypes.DATE
-    }
+    // created_at: {
+    //     allowNull: false,
+    //     type: DataTypes.DATE
+    // },
+    // updated_at: {
+    //     allowNull: false,
+    //     type: DataTypes.DATE
+    // }
 },
     {
         underscored: true,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     });
 
 Roles.belongsToMany(Users, { through: UserHasRoles });

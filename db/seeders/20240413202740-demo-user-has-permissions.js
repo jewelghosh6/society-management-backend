@@ -1,25 +1,37 @@
 'use strict';
 
+const { getPermissionIdByPermissionName } = require('../../services/rolesAndPermissionService');
+const { getUserIdByUserEmail } = require('../../services/userService');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('user_has_permissions', [
-      { id: 1, user_id: 1, permission_id: 1, created_at: new Date(), updated_at: new Date() },
-      { id: 2, user_id: 1, permission_id: 2, created_at: new Date(), updated_at: new Date() },
-      { id: 3, user_id: 1, permission_id: 3, created_at: new Date(), updated_at: new Date() },
-      { id: 4, user_id: 1, permission_id: 4, created_at: new Date(), updated_at: new Date() },
-      { id: 5, user_id: 1, permission_id: 5, created_at: new Date(), updated_at: new Date() },
-      { id: 6, user_id: 1, permission_id: 6, created_at: new Date(), updated_at: new Date() },
-      { id: 7, user_id: 1, permission_id: 7, created_at: new Date(), updated_at: new Date() },
-      { id: 8, user_id: 1, permission_id: 8, created_at: new Date(), updated_at: new Date() },
-      { id: 9, user_id: 1, permission_id: 9, created_at: new Date(), updated_at: new Date() },
-      { id: 10, user_id: 1, permission_id: 10, created_at: new Date(), updated_at: new Date() },
-      { id: 11, user_id: 1, permission_id: 11, created_at: new Date(), updated_at: new Date() },
-      { id: 12, user_id: 1, permission_id: 12, created_at: new Date(), updated_at: new Date() },
-      { id: 13, user_id: 1, permission_id: 13, created_at: new Date(), updated_at: new Date() },
-      { id: 14, user_id: 1, permission_id: 14, created_at: new Date(), updated_at: new Date() },
-      { id: 15, user_id: 1, permission_id: 15, created_at: new Date(), updated_at: new Date() },
-      { id: 16, user_id: 1, permission_id: 16, created_at: new Date(), updated_at: new Date() },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_add_new_member') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_approve_new_member_joining_request') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_manage_visitor_activity') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_generate_various_bills') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_pay_various_bills') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_view_various_bills') },
+      // { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_pay_own_flat_bills') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_raise_complaint/suggestions') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_resolve_complaint/suggestions') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_view_complaint/suggestions') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_add_new_flat') },
+      // { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_view_single_flat_details') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_view_all_flat_details') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_allot_new_flats_to_user') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_create_meetings') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_receive_meeting_notification') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_give_access_to_flat_tenants') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('have_access_to_group_chat') },
+
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_view_dashboard') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_manage_user') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_manage_bills_section') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_view_events_section') },
+      { user_id: await getUserIdByUserEmail("jewel@gmail.com"), permission_id: await getPermissionIdByPermissionName('can_view_security_section') },
+
     ], {});
   },
 

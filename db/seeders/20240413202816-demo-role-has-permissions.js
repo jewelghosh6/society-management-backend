@@ -1,25 +1,128 @@
 'use strict';
 
+const { getRoleIdByRoleName, getPermissionIdByPermissionName } = require('../../services/rolesAndPermissionService');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('role_has_permissions', [
-      { id: 1, role_id: 1, permission_id: 1, created_at: new Date(), updated_at: new Date() },
-      { id: 2, role_id: 1, permission_id: 2, created_at: new Date(), updated_at: new Date() },
-      { id: 3, role_id: 1, permission_id: 3, created_at: new Date(), updated_at: new Date() },
-      { id: 4, role_id: 1, permission_id: 4, created_at: new Date(), updated_at: new Date() },
-      { id: 5, role_id: 1, permission_id: 5, created_at: new Date(), updated_at: new Date() },
-      { id: 6, role_id: 1, permission_id: 6, created_at: new Date(), updated_at: new Date() },
-      { id: 7, role_id: 1, permission_id: 7, created_at: new Date(), updated_at: new Date() },
-      { id: 8, role_id: 1, permission_id: 8, created_at: new Date(), updated_at: new Date() },
-      { id: 9, role_id: 1, permission_id: 9, created_at: new Date(), updated_at: new Date() },
-      { id: 10, role_id: 1, permission_id: 10, created_at: new Date(), updated_at: new Date() },
-      { id: 11, role_id: 1, permission_id: 11, created_at: new Date(), updated_at: new Date() },
-      { id: 12, role_id: 1, permission_id: 12, created_at: new Date(), updated_at: new Date() },
-      { id: 13, role_id: 1, permission_id: 13, created_at: new Date(), updated_at: new Date() },
-      { id: 14, role_id: 1, permission_id: 14, created_at: new Date(), updated_at: new Date() },
-      { id: 15, role_id: 1, permission_id: 15, created_at: new Date(), updated_at: new Date() },
-      { id: 16, role_id: 1, permission_id: 16, created_at: new Date(), updated_at: new Date() },
+      //For 'SUPER-ADMIN'
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_add_new_member') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_approve_new_member_joining_request') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_manage_visitor_activity') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_generate_various_bills') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_pay_various_bills') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_various_bills') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_raise_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_resolve_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_complaint/suggestions') },
+      //:For Flats
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_add_new_flat') },
+      // { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_single_flat_details') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_all_flat_details') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_allot_new_flats_to_user') },
+
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_create_meetings') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_receive_meeting_notification') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_give_access_to_flat_tenants') },
+      // { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_pay_own_flat_bills') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('have_access_to_group_chat') },
+
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_dashboard') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_manage_user') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_manage_bills_section') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_events_section') },
+      { role_id: await getRoleIdByRoleName('SUPER-ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_security_section') },
+
+      // 'ADMIN'
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_receive_meeting_notification') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_create_meetings') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_allot_new_flats_to_user') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_all_flat_details') },
+      // { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_single_flat_details') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_add_new_flat') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_resolve_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_raise_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_various_bills') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_pay_various_bills') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_generate_various_bills') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_manage_visitor_activity') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_approve_new_member_joining_request') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_add_new_member') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('have_access_to_group_chat') },
+
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_dashboard') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_manage_user') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_manage_bills_section') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_events_section') },
+      { role_id: await getRoleIdByRoleName('ADMIN'), permission_id: await getPermissionIdByPermissionName('can_view_security_section') },
+
+      //for SOCIETY MANAGER/PRESIDENT
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_generate_various_bills') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_pay_various_bills') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_view_various_bills') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_raise_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_view_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_add_new_flat') },
+      // { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_view_single_flat_details') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_view_all_flat_details') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_create_meetings') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('have_access_to_group_chat') },
+
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_view_dashboard') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_manage_bills_section') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_view_events_section') },
+      { role_id: await getRoleIdByRoleName('SOCIETY-MANAGER/PRESIDENT'), permission_id: await getPermissionIdByPermissionName('can_view_security_section') },
+
+      //for FLAT-RESIDENT/OWNER
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_view_single_flat_details') },
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_receive_meeting_notification') },
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_raise_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_pay_various_bills') },
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_pay_own_flat_bills') },
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('have_access_to_group_chat') },
+
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_view_dashboard') },
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_view_events_section') },
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_view_security_section') },
+      { role_id: await getRoleIdByRoleName('FLAT-RESIDENT/OWNER'), permission_id: await getPermissionIdByPermissionName('can_view_complaint/suggestions') },
+
+
+
+      //WATCH-MAN
+      { role_id: await getRoleIdByRoleName('WATCH-MAN'), permission_id: await getPermissionIdByPermissionName('can_manage_visitor_activity') },
+      { role_id: await getRoleIdByRoleName('WATCH-MAN'), permission_id: await getPermissionIdByPermissionName('can_raise_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('WATCH-MAN'), permission_id: await getPermissionIdByPermissionName('have_access_to_group_chat') },
+
+      { role_id: await getRoleIdByRoleName('WATCH-MAN'), permission_id: await getPermissionIdByPermissionName('can_view_dashboard') },
+      { role_id: await getRoleIdByRoleName('WATCH-MAN'), permission_id: await getPermissionIdByPermissionName('can_view_security_section') },
+      { role_id: await getRoleIdByRoleName('WATCH-MAN'), permission_id: await getPermissionIdByPermissionName('can_view_events_section') },
+      { role_id: await getRoleIdByRoleName('WATCH-MAN'), permission_id: await getPermissionIdByPermissionName('can_view_complaint/suggestions') },
+
+
+      //TENANT
+      { role_id: await getRoleIdByRoleName('TENANT'), permission_id: await getPermissionIdByPermissionName('can_pay_own_flat_bills') },
+      { role_id: await getRoleIdByRoleName('TENANT'), permission_id: await getPermissionIdByPermissionName('can_raise_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('TENANT'), permission_id: await getPermissionIdByPermissionName('can_receive_meeting_notification') },
+      { role_id: await getRoleIdByRoleName('TENANT'), permission_id: await getPermissionIdByPermissionName('have_access_to_group_chat') },
+
+      { role_id: await getRoleIdByRoleName('TENANT'), permission_id: await getPermissionIdByPermissionName('can_view_dashboard') },
+      { role_id: await getRoleIdByRoleName('TENANT'), permission_id: await getPermissionIdByPermissionName('can_view_events_section') },
+
+
+      //STAFF
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('can_create_meetings') },
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('can_raise_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('can_resolve_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('can_view_complaint/suggestions') },
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('can_manage_visitor_activity') },
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('have_access_to_group_chat') },
+
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('can_view_dashboard') },
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('can_view_security_section') },
+      { role_id: await getRoleIdByRoleName('STAFF'), permission_id: await getPermissionIdByPermissionName('can_view_events_section') },
+
     ], {});
 
   },

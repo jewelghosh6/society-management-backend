@@ -19,17 +19,20 @@ const Permissions = sequelizeInstance.define("permissions",
             type: DataTypes.STRING,
             allowNull: false,
         },
-        created_at: {
-            allowNull: false,
-            type: DataTypes.DATE
-        },
-        updated_at: {
-            allowNull: false,
-            type: DataTypes.DATE
-        }
+        // created_at: {
+        //     allowNull: false,
+        //     type: DataTypes.DATE
+        // },
+        // updated_at: {
+        //     allowNull: false,
+        //     type: DataTypes.DATE
+        // }
     },
     {
         underscored: true,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     });
 
 module.exports = Permissions;

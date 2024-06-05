@@ -28,22 +28,25 @@ const RoleHasPermissions = sequelizeInstance.define('role_has_permissions', {
       key: "id",
     },
   },
-  created_at: {
-    allowNull: false,
-    type: DataTypes.DATE
-  },
-  updated_at: {
-    allowNull: false,
-    type: DataTypes.DATE
-  }
+  // created_at: {
+  //   allowNull: false,
+  //   type: DataTypes.DATE
+  // },
+  // updated_at: {
+  //   allowNull: false,
+  //   type: DataTypes.DATE
+  // }
 },
   {
     underscored: true,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   }
 );
 
-Roles.hasMany(Permissions, { through: RoleHasPermissions });
-Permissions.hasMany(Roles, { through: RoleHasPermissions });
+Roles.belongsToMany(Permissions, { through: RoleHasPermissions });
+Permissions.belongsToMany(Roles, { through: RoleHasPermissions });
 
 Permissions.hasMany(RoleHasPermissions, { foreignKey: "permission_id" });
 RoleHasPermissions.belongsTo(Permissions, { foreignKey: "permission_id" });

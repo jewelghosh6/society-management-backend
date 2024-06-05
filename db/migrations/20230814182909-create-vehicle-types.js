@@ -1,4 +1,5 @@
 "use strict";
+/** @type {import('sequelize-cli').Migration} */
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -17,15 +18,14 @@ module.exports = {
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
-      },
-    },
-      {
-        underscored: true,
-      });
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      }
+    });
   },
 
   async down(queryInterface, Sequelize) {
