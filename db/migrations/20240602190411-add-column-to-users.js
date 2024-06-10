@@ -18,11 +18,13 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    await queryInterface.removeColumn('users', 'password_reset_token', {
+      type: Sequelize.STRING,
+      allowNull: true, 
+    });
+    await queryInterface.removeColumn('users', 'password_reset_token_expire_at', {
+      type: Sequelize.DATE,
+      allowNull: true, 
+    });
   }
 };

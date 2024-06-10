@@ -26,7 +26,7 @@ app.use('/api/roles', rolesRoutes)
 
 app.use('/api/permissions', permissionRoutes)
 
-app.use('/api/flats', authenticateUser, isAdminOrStaff, flatRoutes);
+app.use('/api/flats', authenticateUser, flatRoutes);
 
 app.use('/api/visitor', authenticateUser, isAdminOrStaff, visitorRoutes);
 

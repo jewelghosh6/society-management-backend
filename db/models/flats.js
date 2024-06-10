@@ -16,6 +16,11 @@ const Flats = sequelizeInstance.define('flats',
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        floor_number:
+        {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
         building_number:
         {
             type: DataTypes.STRING,
@@ -31,6 +36,10 @@ const Flats = sequelizeInstance.define('flats',
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        // is_alloted: {
+        //     type: DataTypes.BOOLEAN,
+        //     allowNull: false
+        // },
         parking_space_alloted:
         {
             type: DataTypes.BOOLEAN,
