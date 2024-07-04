@@ -2,16 +2,16 @@
   "development": {
     "username": "postgres",
     "password": "1111",
-    "database": "society_management_system_db_updated3",
+    "database": "society_management_system_db_updated2",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "migrationStorageTableName": "sequelize_meta"
   },
   "production": {
-    "username": "app",
-    "password": "0eQk1wLs47jV8Y96zsw1GV34",
-    "database": "society_management_db_v2",
-    "host": "preferably-polite-rhino.a1.pgedge.io",
+    "username": "society_management_db_v3_user",
+    "password": "5wHmJrwILPxfigCwbBSh91k96SRZAkeU",
+    "database": "society_management_db_v3",
+    "host": "dpg-cq3dsorqf0us73dg7vp0-a",
     "dialect": "postgres"
   },
   "test": {
