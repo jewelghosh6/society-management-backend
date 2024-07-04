@@ -1,6 +1,7 @@
 const sequelizeInstance = require('../db');
 const { DataTypes } = require('sequelize');
 const Flats = require('./flats');
+const Messages = require('./messages');
 
 const Users = sequelizeInstance.define('users',
     {
@@ -78,5 +79,7 @@ const Users = sequelizeInstance.define('users',
 Users.hasMany(Flats, { foreignKey: 'user_id' });  //1:M relation
 Flats.belongsTo(Users, { foreignKey: 'user_id' });
 
+Users.hasMany(Messages, { foreignKey: 'user_id' });  //1:M relation
+Messages.belongsTo(Users, { foreignKey: 'user_id' });
 
 module.exports = Users;

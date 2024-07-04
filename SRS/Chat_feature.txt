@@ -1,0 +1,34 @@
+Messages
+  Id - INT Auto-generated, primary key
+ Content- STRING TEXT msg
+Reference - other msg id, ref for replying to a msg
+User ID/Sender ID- Foreign Key from user table
+Receiver ID- 
+Conversation ID - Foreign key from conversation table
+
+CreatedAt -timestamp
+UpdatedAt -timestamp
+
+Conversations / Groups 
+Id - INT Auto-generated, primary key
+Conversation name - string 
+conversation_type:ENUM("direct", "group")
+Event Key- string of 8 digits ,for emiting event from websocket
+No of Participants- int 
+Group Icon- string, image url
+Is public - Boolean ,any one can see and send join request
+
+CreatedAt -timestamp
+UpdatedAt -timestamp
+
+Users_Have_Conversations
+
+Id - INT Auto-generated, primary key
+User ID
+Conversation ID - Foreign key from conversation table
+
+CreatedAt -timestamp
+UpdatedAt -timestamp
+
+
+ 

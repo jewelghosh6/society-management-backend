@@ -8,7 +8,7 @@ const createAccessToken = (payload) => {
     try {
         let accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET,
             {
-                expiresIn: "10m",
+                expiresIn: "15m",
             });
         return accessToken;
     } catch (error) {
@@ -20,7 +20,7 @@ const createRefreshToken = (payload) => {
     try {
         let refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET,
             {
-                expiresIn: "6h",
+                expiresIn: "24h",
             });
         return refreshToken;
     } catch (error) {
@@ -38,7 +38,7 @@ const generatePasswordResetToken = async (email) => {
     try {
         let resp = await Users.update({
             password_reset_token: hashedToken,
-            password_reset_token_expire_at: Date.now()+ 10*60*1000 //10 mins validity of token
+            password_reset_token_expire_at: Date.now() + 10 * 60 * 1000 //10 mins validity of token
         }, {
             where: {
                 email_id: email

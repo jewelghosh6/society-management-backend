@@ -52,7 +52,7 @@ const viewUsersByJoin = async () => {
         "is_active",
       ],
       where: {
-        account_under_review: false
+        account_under_review: false,
       },
       include: [
         {
@@ -64,6 +64,38 @@ const viewUsersByJoin = async () => {
           attributes: ["permission_name"],
           // exclude: [{ model: UserHasPermissions }]
         }
+      ],
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+  return usersObj;
+};
+
+const getUsersByRoleName = async (roleName) => {
+  let usersObj;
+  try {
+    usersObj = await Users.findAll({
+      attributes: [
+        "id",
+        "first_name",
+        "last_name",
+        "mobile_number",
+        "email_id",
+        "is_active",
+      ],
+      where: {
+        account_under_review: false,
+      },
+      include: [
+        {
+          model: Roles, // will create a left join
+          attributes: ["role_name"],
+          where: {
+            role_name: roleName
+          },
+        },
       ],
     });
 
@@ -146,22 +178,29 @@ const deleteUserById = async (userId) => //for Deleting a Entry/Row by Id
 };
 
 const findUserByKeyword = async (keyword) => {
-  let listOfResult = await Users.findAll({
-    where: {
-      [Op.or]: {
-        emailId: {
-          [Op.iLike]: `%${keyword}%`              // LIKE '%hat%'
-        },
-        lastName: {
-          [Op.iLike]: `%${keyword}%`              // LIKE '%hat%'
+  try {
+    let listOfResult = await Users.findAll({
+      where: {
+        [Op.or]: {
+          email_id: {
+            [Op.iLike]: `%${keyword}%`              // LIKE '%hat%'
+          },
+          last_name: {
+            [Op.iLike]: `%${keyword}%`              // LIKE '%hat%'
+          },
+          first_name: {
+            [Op.iLike]: `%${keyword}%`              // LIKE '%hat%'
+          }
         }
       }
-    }
-  });
-  //console.log(listOfResult);
-  listOfResult.forEach(users => {
-    console.log(users.dataValues)
-  });
+    });
+    //console.log(listOfResult);
+    return listOfResult.map(users => users.dataValues);
+  } catch (error) {
+    console.log(error);
+    throw error;
+    // return error;
+  }
 }
 
 const getAllRegisterReqDeails = async () => {
