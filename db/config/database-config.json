@@ -8,10 +8,10 @@
     "migrationStorageTableName": "sequelize_meta"
   },
   "production": {
-    "username": "root",
-    "password": "MSohcQSIyY1LEayZ0sGzr1XMkaKPi4Ao",
+    "username": "app",
+    "password": "0eQk1wLs47jV8Y96zsw1GV34",
     "database": "society_management_db_v2",
-    "host": "dpg-cp9hv17109ks73a91rig-a",
+    "host": "preferably-polite-rhino.a1.pgedge.io",
     "dialect": "postgres"
   },
   "test": {
