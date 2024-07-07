@@ -11,7 +11,7 @@ const Conversations = sequelizeInstance.define('conversations',
       autoIncrement: true,
       allowNull: false
     },
-    conversation_name:
+    conversation_name: //for direct conversation it will be null for "group" it will be Group Name
     {
       type: DataTypes.STRING,
       allowNull: true,

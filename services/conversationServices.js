@@ -56,12 +56,15 @@ const createOneToOneConversation = async (idOfOtherUser, userObj) => {
     }
 }
 
-const getConversationIdByEventKeyViceVerca = async (event_key, conversation_id) => {
+const getConversationIdByEventKeyViceVerca = async (event_key = null, conversation_id = null) => {
 
     try {
         let convObj = await Conversations.findOne({
             where: {
-                [Op.or]: [[event_key, conversation_id]]
+                [Op.or]: [
+                    { event_key: event_key },
+                    { id: conversation_id }
+                ]
             }
         })
         return convObj;
@@ -141,30 +144,31 @@ const getConversationListByUserId = async (userId) => {
 
         let formattedConversationObjs = await Promise.all(convObj.map(async (item) => {
             let conversationParticipants;
-            let sender;
-            let recipient = [];
+            // let sender;
+            // let recipient = [];
             try {
-                conversationParticipants = await getConversationParticipantsByConversationId(item.dataValues.conversation_id);
+                conversationParticipants = await getConversationParticipantsByConversationId(item.dataValues.conversation_id, userId);
 
 
-                conversationParticipants.forEach(item => {
-                    if (item.user_id === userId) sender = item;
-                    else recipient.push(item);
-                })
+                // conversationParticipants.forEach(item => {
+                //     if (item.user_id === userId) sender = item;
+                //     else recipient.push(item);
+                // })
             } catch (error) {
                 console.error(error);
             }
             // console.log("......................", { conversationParticipants });
-            return {
-                participants: { sender, recipient },
-                ...item.dataValues,
-                ...item.dataValues.conversation.dataValues,
-                // ...item.dataValues.user.dataValues
-            };
+            // return {
+            //     participants: { sender, recipient },
+            //     ...item.dataValues,
+            //     ...item.dataValues.conversation.dataValues,
+            //     // ...item.dataValues.user.dataValues
+            // };
+
+            return conversationParticipants
         }));
 
 
-        // console.log("formattedConversationObjs><{{{{{{{{{{{", await formattedConversationObjs);
         return [200, formattedConversationObjs]
     } catch (error) {
         console.error(error);
@@ -173,7 +177,9 @@ const getConversationListByUserId = async (userId) => {
 }
 
 
-const getConversationParticipantsByConversationId = async (conversation_id) => {
+const getConversationParticipantsByConversationId = async (conversation_id, sender_Id) => {
+    let sender;
+    let recipient = [];
     try {
         let userObjArr = await UserHasConversations.findAll({
             where: {
@@ -183,29 +189,77 @@ const getConversationParticipantsByConversationId = async (conversation_id) => {
                 {
                     model: Users, // will create a left join
                 },
+                {
+                    model: Conversations, // will create a left join
+                },
             ],
         })
-        let formattedUserConversationObjsArr = userObjArr.map(item => {
-            return {
-                ...item.dataValues,
-                ...item.dataValues.user.dataValues
-            }
+        // let formattedUserConversationObjsArr = userObjArr.map(item => {
+        //     return {
+        //         ...item.dataValues,
+        //         ...item.dataValues.user.dataValues
+        //     }
+        // });
+
+        console.log("user____", userObjArr);
+
+        userObjArr.forEach(item => {
+            if (item.user_id === sender_Id) sender = item.dataValues;
+            else recipient.push(item.dataValues);
+        })
+        console.log("_________", {
+            participants: { sender, recipient },
+            ...userObjArr.dataValues,
         });
-        // console.log({ formattedUserConversationObjsArr });
-        return formattedUserConversationObjsArr
+        // return formattedUserConversationObjsArr;
+        return {
+            participants: { sender, recipient },
+            // ...item.dataValues,
+            ...userObjArr.conversation,
+            // ...item.dataValues.user.dataValues
+        };
     } catch (error) {
         console.log(error);
         return null;
     }
 }
-getConversationListByUserId(1);
 
+const getConversationDetailsByEventKey = async (event_key, sender_Id) => {
+    try {
+        let convObj = await getConversationIdByEventKeyViceVerca(event_key, null);
+
+        let RespObj = await getConversationParticipantsByConversationId(convObj.id, sender_Id)
+
+        console.log("RespObj", RespObj);
+
+        return RespObj;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const saveMessages = async (data) => {
+    try {
+        let resp = await Messages.create(data);
+        return resp.dataValues;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// getConversationDetailsByEventKey("3dfPK3WmLx");
+// getConversationListByUserId(1);
+// getConversationIdByEventKeyViceVerca(null, 18)
 // getConversationParticipantsByConversationId(17);
+// getConversationParticipantsByConversationId(18, 4)
 
 module.exports = {
     getUsersAndGroupListFromDB,
     createOneToOneConversation,
     getConversationIdByEventKeyViceVerca,
     getConversationListByUserId,
-    getConversationParticipantsByConversationId
+    getConversationParticipantsByConversationId,
+    getConversationDetailsByEventKey,
+    getMessagesByConversationId,
+    saveMessages
 }

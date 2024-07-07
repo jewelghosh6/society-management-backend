@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 
 
 const redisClient = require('./utils/redis-db');
+const { saveMessages } = require('./services/conversationServices');
 // const { server } = require('./server');
 
 const authenticate = (socket, next) => {
@@ -38,6 +39,7 @@ const configureSocket = (server) => {
 
 
     io.use(authenticate)
+
     io.on('connection', async (socket) => {
         console.log('New client connected:>>>>>>', socket.id, socket.userId);
 
@@ -48,16 +50,21 @@ const configureSocket = (server) => {
         // Handle 1-to-1 message
 
         socket.on('direct_message', async (data) => {
-            const { recipientId, message } = data;
+            const { recipientId, message, chatEventKey, conversationId } = data;
             // console.log(".........::::::", recipientId, message);
             try {
+                let respFromSaveMsg = await saveMessages({ user_id: socket.userId, conversation_id: conversationId, message_text: message });
+                console.log({ respFromSaveMsg });
+                console.log({ recipientId });
+
                 let socketIds = await redisClient.get(`user:${recipientId}`)
-                // console.log(err);
                 console.log("socketIds---------", socketIds);
+
                 io.to(socketIds).emit('direct_message', {
                     senderId: socket.userId,
-                    message: message,
-                    sent_at: new Date()
+                    message_text: message,
+                    chatEventKey,
+                    created_at: new Date()
                 });
             } catch (error) {
                 console.log("errttt:", error);

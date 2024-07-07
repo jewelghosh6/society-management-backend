@@ -13,9 +13,9 @@ const verifyRefreshTokenAndGetAccessToken = async (refreshToken) => {
     let user = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET);
 
     console.log("user obj in jwt payload", user);
-    let val = await redisClient.get(user.email_id);
+    let refreshTokenInRedis = await redisClient.get(user.email_id);
 
-    if (!val || val !== refreshToken) {
+    if (!refreshTokenInRedis || refreshTokenInRedis !== refreshToken) {
       return [401, "Invalid refresh token"];
     }
     else {

@@ -1,4 +1,4 @@
-const { getUsersAndGroupListFromDB, createOneToOneConversation, getConversationIdByEventKeyViceVerca, getConversationListByUserId } = require("../services/conversationServices");
+const { getUsersAndGroupListFromDB, createOneToOneConversation, getConversationIdByEventKeyViceVerca, getConversationListByUserId, getConversationDetailsByEventKey, getMessagesByConversationId } = require("../services/conversationServices");
 
 
 const getUsersAndGroupList = async (req, res) => {
@@ -53,7 +53,7 @@ const fetchMessages = async (req, res) => {
 const fetchConversationListByUserId = async (req, res) => {
     try {
         let resp = await getConversationListByUserId(req.user.id);
-        console.log(">>>>>>>", { resp });
+        // console.log(">>>>>>>", { resp });
         res.status(200).send({
             success: true,
             data: resp[1]
@@ -61,12 +61,38 @@ const fetchConversationListByUserId = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+}
 
+const fetchConversationByEventKey = async (req, res) => {
+    let event_key = req.query["chatEventKey"];
+    console.log("event_key+++", event_key);
+    try {
+        let resp = await getConversationDetailsByEventKey(event_key, req.user.id);
+        res.send({
+            success: true,
+            data: resp
+        })
+        return;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const getMessages = async (req, res) => {
+    let conversation_id = req.query['conversation_id']
+    try {
+        let resp = await getMessagesByConversationId(conversation_id)
+        res.send({ success: true, data: resp });
+        return;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 module.exports = {
     getUsersAndGroupList,
     createConversation,
     fetchMessages,
-    fetchConversationListByUserId
+    fetchConversationListByUserId,
+    fetchConversationByEventKey, getMessages
 }
