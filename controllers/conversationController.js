@@ -1,4 +1,4 @@
-const { getUsersAndGroupListFromDB, createOneToOneConversation, getConversationIdByEventKeyViceVerca, getConversationListByUserId, getConversationDetailsByEventKey, getMessagesByConversationId } = require("../services/conversationServices");
+const { getUsersAndGroupListFromDB, createOneToOneConversation, getConversationIdByEventKeyViceVerca, getConversationListByUserId, getConversationDetailsByEventKey, getMessagesByConversationId, addUserInGroupChat } = require("../services/conversationServices");
 
 
 const getUsersAndGroupList = async (req, res) => {
@@ -8,7 +8,7 @@ const getUsersAndGroupList = async (req, res) => {
         let resp = await getUsersAndGroupListFromDB(searchQuery, req.user)
         res.status(resp[0]).send({
             success: resp[0] == 200,
-            message: resp[0] == 200 ? "Users Found" : resp[1],
+            message: resp[0] == 200 ? "Users/Groups Found" : resp[1],
             ...(resp[0] == 200 ? { data: resp[1] } : {})
         })
         return;
@@ -24,8 +24,8 @@ const createConversation = async (req, res) => {
 
         let resp = await createOneToOneConversation(idOfOtherUser, req.user);
         res.status(resp[0]).send({
-            success: resp[0] === 201 || 200,
-            message: resp[0] == 201 ? "new Conversation created" : resp[1],
+            success: resp[0] === (201 || 200),
+            message: resp[0] == 201 ? "New Conversation created" : resp[1],
             ...(resp[0] == 201 ? { data: resp[1] } : {})
         })
         return;
@@ -89,10 +89,23 @@ const getMessages = async (req, res) => {
     }
 }
 
+const joinGrooupChat = async (req, res) => {
+    let conversation_id = req.body.conversation_id;
+    let user_id = req.user.id;
+    try {
+        let resp = await addUserInGroupChat(conversation_id, user_id)
+        res.send({ success: true, data: resp, message: "User joined successfully in group" })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     getUsersAndGroupList,
     createConversation,
     fetchMessages,
     fetchConversationListByUserId,
-    fetchConversationByEventKey, getMessages
+    fetchConversationByEventKey,
+    getMessages,
+    joinGrooupChat
 }

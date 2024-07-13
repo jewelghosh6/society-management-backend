@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 
 const redisClient = require('./utils/redis-db');
-const { saveMessages } = require('./services/conversationServices');
+const { saveMessages, getConversationParticipantsByConversationId } = require('./services/conversationServices');
 // const { server } = require('./server');
 
 const authenticate = (socket, next) => {
@@ -50,8 +50,8 @@ const configureSocket = (server) => {
         // Handle 1-to-1 message
 
         socket.on('direct_message', async (data) => {
-            const { recipientId, message, chatEventKey, conversationId } = data;
-            // console.log(".........::::::", recipientId, message);
+            const { recipientId, message, chatEventKey, conversationId, senderName } = data;
+            console.log(".........::::::", recipientId, message, senderName);
             try {
                 let respFromSaveMsg = await saveMessages({ user_id: socket.userId, conversation_id: conversationId, message_text: message });
                 console.log({ respFromSaveMsg });
@@ -64,7 +64,8 @@ const configureSocket = (server) => {
                     senderId: socket.userId,
                     message_text: message,
                     chatEventKey,
-                    created_at: new Date()
+                    created_at: new Date(),
+                    senderName
                 });
             } catch (error) {
                 console.log("errttt:", error);
@@ -81,6 +82,36 @@ const configureSocket = (server) => {
             // });
         });
 
+
+        socket.on('group_message', async (data) => {
+            const { message, chatEventKey, conversationId, senderName } = data;
+            console.log(".........::::::", message, senderName);
+            try {
+                let respFromSaveMsg = await saveMessages({ user_id: socket.userId, conversation_id: conversationId, message_text: message });
+                console.log({ respFromSaveMsg });
+
+                let resp = await getConversationParticipantsByConversationId(conversationId, socket.userId);
+                let recipientIds = resp.participants.recipient.map(item => item.user_id);
+                console.log("recipientIds---------", recipientIds);
+
+                recipientIds.forEach(async (recipientId) => {
+
+                    let socketId = await redisClient.get(`user:${recipientId}`)
+
+                    io.to(socketId).emit('group_message', {
+                        senderId: socket.userId,
+                        message_text: message,
+                        chatEventKey,
+                        created_at: new Date(),
+                        senderName
+                    });
+                });
+
+            } catch (error) {
+                console.log("errttt:", error);
+            }
+        })
+
         // socket.on('direct_message', (messageObj) => {
         //     console.log(messageObj);
 
@@ -93,7 +124,7 @@ const configureSocket = (server) => {
         //     // }
         // });
 
-        // // Handle 1-to-many message
+        // Handle 1-to-many message
         // socket.on('broadcast_message', (message) => {
         //     socket.broadcast.emit('broadcast_message', { from: socket.id, message });
         // });

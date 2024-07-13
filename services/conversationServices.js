@@ -8,13 +8,35 @@ const Users = require("../db/models/users");
 
 const getUsersAndGroupListFromDB = async (searchQuery, userObj) => {
     try {
+        //Searcg for users
         let foundUsers = await findUserByKeyword(searchQuery);
         //Exclude the same user from search result 
         let filteredUsers = foundUsers.filter((item) => item.id !== userObj.id);
-        return [200, filteredUsers];
+
+        //Search for public groups
+        let foundGroups = await findGroupsByKeyword(searchQuery);
+        return [200, { users: filteredUsers, groups: foundGroups }];
     } catch (error) {
         console.log(error);
         return [400, error]
+    }
+}
+
+
+const findGroupsByKeyword = async (keyword) => {
+    try {
+        let listOfGroups = await Conversations.findAll({
+            where: {
+                [Op.or]: {
+                    conversation_name: {
+                        [Op.iLike]: `%${keyword}%`
+                    }
+                }
+            }
+        });
+        return listOfGroups.map(group => group.dataValues);
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -78,9 +100,14 @@ const getMessagesByConversationId = async (conversation_id) => {
         let messages = await Messages.findAll({
             where: {
                 conversation_id
-            }
+            },
+            include: [
+                {
+                    model: Users, // will create a left join
+                    attributes: ["first_name", "last_name"],
+                }]
         })
-        return messages.map(item => item.dataValues)
+        return messages.map(item => { return { ...item.dataValues, senderName: `${item.dataValues.user.first_name} ${item.dataValues.user.last_name}` } })
     } catch (error) {
         console.error(error);
     }
@@ -93,7 +120,13 @@ const check1to1ConversationExsistanceByUserIds = async (idArr) => {
                 user_id: {
                     [Op.in]: idArr
                 }
-            }
+            },
+            include: [{
+                model: Conversations,
+                where: {
+                    conversation_type: 'direct'
+                }
+            }]
         })
         //If userConvsObjs array length is falsy then no conversation exist
         if (!userConvsObjs.length) {
@@ -247,6 +280,15 @@ const saveMessages = async (data) => {
     }
 }
 
+const addUserInGroupChat = async (conversation_id, user_id) => {
+    try {
+        let resp = await UserHasConversations.create({ conversation_id, user_id });
+        return resp;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // getConversationDetailsByEventKey("3dfPK3WmLx");
 // getConversationListByUserId(1);
 // getConversationIdByEventKeyViceVerca(null, 18)
@@ -261,5 +303,6 @@ module.exports = {
     getConversationParticipantsByConversationId,
     getConversationDetailsByEventKey,
     getMessagesByConversationId,
-    saveMessages
+    saveMessages,
+    addUserInGroupChat
 }

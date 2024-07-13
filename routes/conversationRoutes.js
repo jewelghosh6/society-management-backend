@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUsersAndGroupList, createConversation, fetchMessages, fetchConversationListByUserId, fetchConversationByEventKey, getMessages } = require('../controllers/conversationController');
+const { getUsersAndGroupList, createConversation, fetchMessages, fetchConversationListByUserId, fetchConversationByEventKey, getMessages, joinGrooupChat } = require('../controllers/conversationController');
 
 const router = express.Router();
 
@@ -14,6 +14,8 @@ router.get('/fetch-conversations', (req, res) => fetchConversationListByUserId(r
 router.get('/get-conversation-info', (req, res) => fetchConversationByEventKey(req, res))
 
 router.get('/get-messages', (req, res) => getMessages(req, res));
+
+router.post('/group/join', (req, res) => joinGrooupChat(req, res));
 
 
 module.exports = router;

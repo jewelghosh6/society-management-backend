@@ -11,7 +11,10 @@ const { isAdmin, isAdminOrStaff } = require('./middlewares/isAdmin');
 const authenticateUser = require('./middlewares/authenticateToken');
 const userRoutes = require('./routes/userRoutes');
 const rolesRoutes = require('./routes/rolesRoutes')
-const permissionRoutes = require('./routes/permissionRoutes')
+const permissionRoutes = require('./routes/permissionRoutes');
+const multer = require('multer');
+const cloudinary = require('./utils/cloudinaryConfig')
+const fs = require('fs')
 
 // const { OAuth2Client } = require('google-auth-library');
 require("dotenv").config();
@@ -34,6 +37,37 @@ app.use('/api/vehicle', authenticateUser, isAdminOrStaff, vehicleRoutes);
 
 app.get("/api", (req, res) => {
     res.send('Welcome to Society Management');
+});
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+const upload = multer({ storage });
+
+// Serve static files
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
+app.post('/api/upload', upload.single('image'), (req, res) => {
+    cloudinary.uploader.upload(req.file.path, (error, result) => {
+        if (error) {
+            console.error('Error uploading to Cloudinary:', error);
+            res.status(500).send('Upload error');
+        } else {
+            fs.unlinkSync(req.file.path); // Delete the local file
+            console.log({ result });
+            const imageUrl = result.secure_url;
+            // io.emit('new_image', imageUrl);
+            res.status(200).json({ imageUrl });
+        }
+    });
 });
 
 // app.get('/authorize', (req, res) => {
