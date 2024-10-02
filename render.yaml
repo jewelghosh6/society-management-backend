@@ -1,0 +1,55 @@
+# Exported from Render on 2024-07-20T10:10:15Z
+databases:
+- name: society_management_db_v3
+  databaseName: society_management_db_v3
+  user: society_management_db_v3_user
+  plan: free
+  region: oregon
+  ipAllowList:
+  - source: 0.0.0.0/0
+    description: everywhere
+  postgresMajorVersion: "16"
+services:
+- type: web
+  name: society-management-backend-v2
+  runtime: node
+  repo: https://github.com/jewelghosh6/society-management-backend
+  branch: develop
+  plan: free
+  envVars:
+  - key: SECRET_KEY_CRYPTO
+    sync: false
+  - key: REDIS_DB_PORT
+    sync: false
+  - key: REDIS_DB_PASSWORD
+    sync: false
+  - key: REDIS_DB_HOST
+    sync: false
+  - key: RAZORPAY_KEY_SECRET
+    sync: false
+  - key: RAZORPAY_KEY_ID
+    sync: false
+  - key: PASSWORD
+    sync: false
+  - key: NODE_ENV
+    sync: false
+  - key: JWT_REFRESH_TOKEN_SECRET
+    sync: false
+  - key: JWT_ACCESS_TOKEN_SECRET
+    sync: false
+  - key: FRONTEND_URL
+    sync: false
+  - key: EMAIL
+    sync: false
+  - key: DB_CONNECTION_URL
+    fromDatabase:
+      name: society_management_db_v3
+      property: connectionString
+  - key: APP_PORT
+    sync: false
+  region: oregon
+  buildCommand: NODE_ENV=production ; npm install ; npx sequelize-cli db:seed --seed
+    20240713145634-add-conversation-group.js ;
+  startCommand: node app.js
+  rootDir: ./
+version: "1"

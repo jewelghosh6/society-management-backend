@@ -8,11 +8,17 @@
     "migrationStorageTableName": "sequelize_meta"
   },
   "production": {
-    "username": "society_management_db_v3_user",
-    "password": "5wHmJrwILPxfigCwbBSh91k96SRZAkeU",
-    "database": "society_management_db_v3",
-    "host": "dpg-cq3dsorqf0us73dg7vp0-a",
-    "dialect": "postgres"
+    "username": "societymanagementdb_zlzg_user",
+    "password": "f8RnFZvKHXfPPSzrcRucizisIHuBUnnT",
+    "database": "societymanagementdb_zlzg",
+    "host": "dpg-cr4tctg8fa8c73a7lh60-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   },
   "test": {
     "username": "postgres",

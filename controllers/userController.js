@@ -1,7 +1,8 @@
 const { encryptPassword } = require("../services/authentication/password");
 const { createUser, viewUsersByJoin, updateUserById, viewUserByID, deleteUserById, getAllRegisterReqDeails,
   getRegisterReqDetailsByUserId,
-  approveUserRegReqAndAssignRole
+  approveUserRegReqAndAssignRole,
+  getUsersByRoleName
 } = require("../services/userService");
 
 //fetch data from frontend
@@ -9,7 +10,7 @@ const { createUser, viewUsersByJoin, updateUserById, viewUserByID, deleteUserByI
 //show return data to the frontend through routes
 
 const registerUser = async (req, res) => {
-  console.log("req.body", req.body);
+  // console.log("req.body", req.body);
   if (!req.body.email || !req.body.password) {
     return res.status(400).send({ success: false, message: "Email or password can't be null." });
   }
@@ -23,7 +24,7 @@ const registerUser = async (req, res) => {
     }
     else res.status(400).send({ success: false, message: 'Cant create user, Request body should not be null' });
   } catch (error) {
-    console.log('error registering user');
+    console.error('Error: "Registering User" ', error);
   }
 };
 
@@ -77,6 +78,12 @@ const approveRegisterRequestAndAssignRole = async (req, res) => {
   res.send({ success: true, data: resp })
 }
 
+const getFlatOwnersList = async (req, res) => {
+  let resp = await getUsersByRoleName("FLAT-RESIDENT/OWNER");
+  res.status(200).send({ success: true, data: resp });
+  return;
+}
+
 module.exports =
 {
   registerUser,
@@ -86,5 +93,6 @@ module.exports =
   removeUser,
   getAllRegisterRequests,
   getRegisterRequestByUserId,
-  approveRegisterRequestAndAssignRole
+  approveRegisterRequestAndAssignRole,
+  getFlatOwnersList
 };

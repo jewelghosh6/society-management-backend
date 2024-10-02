@@ -12,8 +12,11 @@ const app = express();
 
 const server = http.createServer(app);
 
-const io = configureSocket(server)
+const io = configureSocket(server);
 // const io = socketIo(server);
+
+//Run Cron Job script
+// require('./cron-jobs/genearteBillCronJobService')
 
 app.use(cors({ origin: '*' }));  //This will allow all cross origin request.By-Default app serve only same origin request 
 

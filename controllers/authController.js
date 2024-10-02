@@ -111,7 +111,7 @@ const verifyResetToken = async (req, res) => {
 }
 
 const setNewPassword = async (req, res) => {
-  console.log("req.body", req.body);
+  // console.log("req.body", req.body);
   let { token, password, confirm_password } = req.body;
 
   try {
@@ -145,7 +145,7 @@ const setNewPassword = async (req, res) => {
         password_reset_token_expire_at: null
       })
 
-    console.log("respFromUpdateUserMethod: ", respFromUpdateUserMethod);
+    // console.log("respFromUpdateUserMethod: ", respFromUpdateUserMethod);
 
     res.status(respFromUpdateUserMethod[0]).send({
       success: respFromUpdateUserMethod[0] == 200,

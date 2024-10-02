@@ -6,7 +6,8 @@ const { showUsers,
     removeUser,
     getAllRegisterRequests,
     getRegisterRequestByUserId,
-    approveRegisterRequestAndAssignRole
+    approveRegisterRequestAndAssignRole,
+    getFlatOwnersList
 } = require('../controllers/userController');
 const authenticateUser = require('../middlewares/authenticateToken');
 const { isAdminOrStaff, isAdmin } = require('../middlewares/isAdmin');
@@ -43,6 +44,10 @@ router.get('/register-request/:userId', authenticateUser, (req, res) => {
 
 router.post('/register-request/approve', authenticateUser, (req, res) => {
     approveRegisterRequestAndAssignRole(req, res);
+})
+
+router.get('/flat-owner-list', authenticateUser, (req, res) => {
+    getFlatOwnersList(req, res);
 })
 
 module.exports = router;

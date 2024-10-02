@@ -85,7 +85,7 @@ const deleteVisitorEntry = async (visitorId) => {
       },
       //returning: true
     });
-    console.log(resp);
+    // console.log(resp);
     return resp;
   } catch (error) {
     console.log(error);

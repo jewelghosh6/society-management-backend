@@ -36,7 +36,7 @@ const createConversation = async (req, res) => {
 
 const fetchMessages = async (req, res) => {
     let eventKey = req.query['event-key'];
-    console.log("eventKey", eventKey);
+    // console.log("eventKey", eventKey);
     try {
         let convId = await getConversationIdByEventKeyViceVerca(eventKey, '');
 
@@ -53,7 +53,6 @@ const fetchMessages = async (req, res) => {
 const fetchConversationListByUserId = async (req, res) => {
     try {
         let resp = await getConversationListByUserId(req.user.id);
-        // console.log(">>>>>>>", { resp });
         res.status(200).send({
             success: true,
             data: resp[1]
@@ -65,7 +64,6 @@ const fetchConversationListByUserId = async (req, res) => {
 
 const fetchConversationByEventKey = async (req, res) => {
     let event_key = req.query["chatEventKey"];
-    console.log("event_key+++", event_key);
     try {
         let resp = await getConversationDetailsByEventKey(event_key, req.user.id);
         res.send({

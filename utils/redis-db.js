@@ -21,7 +21,7 @@ client.on("error", (err) => { //You MUST listen to error events. If a client doe
 });
 
 client.on("end", () => {
-  console.log("Client disconnected from redis");
+  console.info("Client disconnected from redis");
 });
 
 module.exports = client;

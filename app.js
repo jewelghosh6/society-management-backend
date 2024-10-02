@@ -62,7 +62,7 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
             res.status(500).send('Upload error');
         } else {
             fs.unlinkSync(req.file.path); // Delete the local file
-            console.log({ result });
+            // console.log({ result });
             const imageUrl = result.secure_url;
             // io.emit('new_image', imageUrl);
             res.status(200).json({ imageUrl });

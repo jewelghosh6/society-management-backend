@@ -102,7 +102,7 @@ const getUsersByRoleName = async (roleName) => {
   } catch (error) {
     console.log(error);
   }
-  return usersObj;
+  return usersObj.map(item => item.dataValues);
 };
 
 const viewUserByID = async (userId) => {
@@ -294,6 +294,27 @@ const getUserByEmailId = async (email) => {
 
 // getUserIdByUserEmail("jewel@gmail.com")
 
+// const getUsersListByRoleName = async (roleName) => {
+//   try {
+//     let resp = await Users.findAll({
+//       include: [
+//         {
+//           model: Roles,
+//           where: {
+//             role_name: "FLAT-RESIDENT/OWNER"
+//           }
+
+//         }
+//       ]
+//     });
+//     console.log(resp.map(item => { return { ...item.dataValues, ...item.dataValues.roles[0].dataValues } }));
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+
+// getFlatOwnersListFromDb()
+
 
 module.exports = {
   createUser,
@@ -306,5 +327,6 @@ module.exports = {
   getRegisterReqDetailsByUserId,
   approveUserRegReqAndAssignRole,
   getUserIdByUserEmail,
-  getUserByEmailId
+  getUserByEmailId,
+  getUsersByRoleName
 };
