@@ -13,6 +13,7 @@
     "database": "societymanagementdb_zlzg",
     "host": "dpg-cr4tctg8fa8c73a7lh60-a.oregon-postgres.render.com",
     "dialect": "postgres",
+    "migrationStorageTableName": "sequelize_meta",
     "dialectOptions": {
       "ssl": {
         "require": true,
