@@ -19,11 +19,6 @@ jobs:
       with:
         node-version: '16' # Change as per your version
 
-    # - name: Install Dependencies
-    #   run: |
-    #     npm install 
-    #     npm run build 
-
     - name: Set up SSH agent
       uses: webfactory/ssh-agent@v0.5.4
       with:
