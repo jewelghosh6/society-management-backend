@@ -4,6 +4,7 @@ const { Op, where } = require('sequelize');
 const Permissions = require("../db/models/permissions");
 const UserHasPermissions = require("../db/models/userHasPermissions");
 const { assignRoleByUserId } = require("./rolesAndPermissionService");
+const sequelizeInstance = require("../db/db");
 
 const createUser = async (dataToInsert) => {
   try {
@@ -264,14 +265,25 @@ const approveUserRegReqAndAssignRole = async (userId, roleAndPermissionData) => 
 
 const getUserIdByUserEmail = async (email) => {
   try {
+
+    const { username, password, host, port, database, dialect } = sequelizeInstance.config;
+
+const connectionUrl = `${dialect}://${username}:${password}@${host}:${port}/${database}`;
+console.log("Connection URL:", connectionUrl);
+    // let a=await Users.findAll();
+    // console.log("aaa",a);
+    
     let userIns = await Users.findOne({
       where: {
         email_id: email
       },
       attributes: ["id"]
     })
+
+    // const [results, metadata] = await sequelizeInstance.query(`SELECT "id" FROM "users" AS "users"`)
+    
+    // console.log("results,metadata", {a:results});
     return userIns.dataValues.id;
-    // console.log("userIns", userIns.dataValues);
   } catch (error) {
     console.log(error);
   }

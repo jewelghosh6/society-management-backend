@@ -3,14 +3,14 @@ require('dotenv').config();//{path:'../.env'}
 const Sequelize = require('sequelize');
 
 //Option:1 using Passing parameter separately
-// const sequelize=new Sequelize(`${process.env.DB_NAME}`,`${process.env.DB_USER_NAME}`,`${process.env.DB_PASSWORD}`,
-// {
-//     host:'localhost',
-//     dialect:'postgres'
-// });
+const sequelizeInstance=new Sequelize(`${process.env.DB_NAME}`,`${process.env.DB_USER_NAME}`,`${process.env.DB_PASSWORD}`,
+{
+    host:process.env.DB_HOST,
+    dialect:process.env.DB_DIALECT
+});
 
 // option 2: Using Connection URL(For Render)
-const sequelizeInstance = new Sequelize(process.env.DB_CONNECTION_URL);
+// const sequelizeInstance = new Sequelize(process.env.DB_CONNECTION_URL);
 
 (async () => {
   try {

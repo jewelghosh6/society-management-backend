@@ -234,21 +234,23 @@ const getConversationParticipantsByConversationId = async (conversation_id, send
         //     }
         // });
 
-        console.log("user____", userObjArr);
+        console.log("user____>>>", userObjArr);
 
         userObjArr.forEach(item => {
-            if (item.user_id === sender_Id) sender = item.dataValues;
+            console.log({item},",,,,ppLL",item.dataValues.user_id,sender_Id);
+            
+            if (item.dataValues.user_id === sender_Id) sender = item.dataValues;
             else recipient.push(item.dataValues);
         })
         console.log("_________", {
-            participants: { sender, recipient },
-            ...userObjArr.dataValues,
+            participants: { sender:sender, recipient },
+            // ...userObjArr.dataValues,
         });
         // return formattedUserConversationObjsArr;
         return {
             participants: { sender, recipient },
             // ...item.dataValues,
-            ...userObjArr.conversation,
+            // ...userObjArr.conversation,
             // ...item.dataValues.user.dataValues
         };
     } catch (error) {
