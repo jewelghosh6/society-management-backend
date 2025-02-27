@@ -17,8 +17,8 @@ const authenticateUser = (req, res, next) => {
       }
       else {
         req.user = user;
-        console.log("withIn jwt Verify method:");
-        console.log(user);
+        // console.log("withIn jwt Verify method:");
+        console.log({user});
         next();
       }
     });

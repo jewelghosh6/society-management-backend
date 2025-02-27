@@ -12,7 +12,7 @@ async function executeQuery(){
     try {
         
         await client.connect()
-        console.log("hewe 3");
+        // console.log("hewe 3");
 
         const res1 = await client.query(`SELECT * FROM "users"`)
 

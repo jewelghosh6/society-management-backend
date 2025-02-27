@@ -10,7 +10,7 @@ const { createUser, viewUsersByJoin, updateUserById, viewUserByID, deleteUserByI
 //show return data to the frontend through routes
 
 const registerUser = async (req, res) => {
-  // console.log("req.body", req.body);
+  console.log("req.body", req.body);
   if (!req.body.email || !req.body.password) {
     return res.status(400).send({ success: false, message: "Email or password can't be null." });
   }

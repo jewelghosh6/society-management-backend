@@ -14,7 +14,9 @@ const rolesRoutes = require('./routes/rolesRoutes')
 const permissionRoutes = require('./routes/permissionRoutes');
 const multer = require('multer');
 const cloudinary = require('./utils/cloudinaryConfig')
-const fs = require('fs')
+const fs = require('fs');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require("swagger-ui-express");
 
 // const { OAuth2Client } = require('google-auth-library');
 require("dotenv").config();
@@ -36,8 +38,28 @@ app.use('/api/visitor', authenticateUser, isAdminOrStaff, visitorRoutes);
 app.use('/api/vehicle', authenticateUser, isAdminOrStaff, vehicleRoutes);
 
 app.get("/api", (req, res) => {
-    res.send('Welcome to Society Management');
+    // res.addListener('Welcome to Society Management');
+    res.send('<h1 style="text-align: center;color:blue; height:100vh; line-height: 100vh;">Welcome to Society Management</h1>');
 });
+
+
+
+// Swagger Configuration
+const swaggerOptions = {
+    definition: {
+      openapi: "3.0.0",
+      info: {
+        title: "Society Management API",
+        version: "1.0.0",
+        description: "API Documentation for Society Management",
+      },
+    },
+    apis: ["./routes/authRoutes.js"], // Specify where your API routes are defined
+  };
+  
+  const swaggerDocs = swaggerJSDoc(swaggerOptions);
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({

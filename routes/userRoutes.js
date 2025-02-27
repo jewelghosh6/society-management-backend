@@ -11,6 +11,7 @@ const { showUsers,
 } = require('../controllers/userController');
 const authenticateUser = require('../middlewares/authenticateToken');
 const { isAdminOrStaff, isAdmin } = require('../middlewares/isAdmin');
+const validateUser = require('../middlewares/validateRegisterUserSchema');
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.get('/view/:id', authenticateUser, isAdminOrStaff, (req, res) => {   //To
     viewUser(req, res);
 })
 
-router.post('/register', (req, res) => {     //To Register/Sign-up a User
+router.post('/register',validateUser, (req, res) => {     //To Register/Sign-up a User  validateUser middleware to validate user request
     registerUser(req, res);
 });
 

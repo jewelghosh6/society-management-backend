@@ -4,6 +4,30 @@ const { login, generateAccessToken, signOut, verifyResetToken, generateForgotPas
 const router = express.Router();
 
 
+/**
+ * @swagger
+ * /api/sign-in:
+ *   post:
+ *     summary: User Login
+ *     description: Authenticate user and return token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 example: password123
+ *     responses:
+ *       200:
+ *         description: Successful login
+ */
+
 router.post('/sign-in', (req, res) => {
     login(req, res);
 })
